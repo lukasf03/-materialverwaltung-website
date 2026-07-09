@@ -1,0 +1,31 @@
+services:
+  website:
+    # Fertiges Image aus der GitHub Container Registry (per GitHub Actions gebaut).
+    image: ghcr.io/lukasf03/materialverwaltung-website:latest
+    container_name: materialverwaltung-website
+    pull_policy: always
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      # --- Mailzustellung der Anfragen (in Portainer setzen) ---
+      SMTP_HOST: "${SMTP_HOST:-}"
+      SMTP_PORT: "${SMTP_PORT:-465}"
+      SMTP_SECURE: "${SMTP_SECURE:-true}"
+      SMTP_USER: "${SMTP_USER:-}"
+      SMTP_PASS: "${SMTP_PASS:-}"
+      MAIL_FROM: "${MAIL_FROM:-}"
+      MAIL_TO: "${MAIL_TO:-}"
+    volumes:
+      # Anfragen werden zusätzlich als Datei gesichert (anfragen.jsonl).
+      - website-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  website-data:

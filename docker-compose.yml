@@ -10,9 +10,11 @@ services:
       NODE_ENV: production
       PORT: "8080"
       # --- Mailzustellung der Anfragen (in Portainer setzen) ---
+      # SMTP_SECURE leer lassen -> der Server leitet es aus dem Port ab
+      # (465 = TLS/secure, 587 = STARTTLS). Nur setzen, wenn ihr es erzwingen wollt.
       SMTP_HOST: "${SMTP_HOST:-}"
       SMTP_PORT: "${SMTP_PORT:-465}"
-      SMTP_SECURE: "${SMTP_SECURE:-true}"
+      SMTP_SECURE: "${SMTP_SECURE:-}"
       SMTP_USER: "${SMTP_USER:-}"
       SMTP_PASS: "${SMTP_PASS:-}"
       MAIL_FROM: "${MAIL_FROM:-}"

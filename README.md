@@ -20,15 +20,33 @@ die statischen Seiten aus und nimmt Anfragen über `POST /api/anfrage` entgegen.
    |---|---|---|
    | `SMTP_HOST` | `smtp.example.de` | Mailserver |
    | `SMTP_PORT` | `465` | Port (465 = SSL, 587 = STARTTLS) |
-   | `SMTP_SECURE` | `true` | `true` bei Port 465, sonst `false` |
+   | `SMTP_SECURE` | *(leer)* | Leer lassen → wird aus dem Port abgeleitet (465 = `true`, 587 = `false`). Nur setzen, um es zu erzwingen. |
    | `SMTP_USER` | `noreply@example.de` | SMTP-Benutzer |
    | `SMTP_PASS` | – | SMTP-Passwort |
    | `MAIL_FROM` | `noreply@example.de` | Absenderadresse |
-   | `MAIL_TO` | `kontakt@example.de` | Empfänger der Anfragen |
+   | `MAIL_TO` | `kontakt@example.de` | **Empfänger der Anfragen (Pflicht für Mailversand!)** |
    | `WEB_PORT` | `8080` | Host-Port (Standard 8080) |
 
    Ohne SMTP-Konfiguration funktioniert das Formular trotzdem – die Anfragen landen
    dann nur in `anfragen.jsonl` (Volume `website-data`).
+
+### Mailversand prüfen / Fehlersuche
+
+Kommen keine E-Mails an, verrät das **Container-Log** die Ursache (Portainer →
+Container `materialverwaltung-website` → Logs). Direkt beim Start steht dort eine
+Zeile `[SMTP] …`:
+
+- `[SMTP] Verbindung und Anmeldung OK …` → Versand funktioniert. Formular testen;
+  bei jeder Anfrage erscheint `[Mailversand OK] …`.
+- `[SMTP] Verbindung/Anmeldung FEHLGESCHLAGEN (<code>): <grund>` → häufige Codes:
+  `EAUTH`/`535` = falscher Benutzer/Passwort · `ETIMEDOUT`/`ECONNREFUSED` = Port
+  (465/587) ausgehend geblockt oder falsch · `ENOTFOUND` = falscher `SMTP_HOST`
+  · TLS-/Zertifikatfehler = `SMTP_SECURE`/Port passt nicht zusammen.
+- `[SMTP] Nicht konfiguriert …` → `SMTP_HOST` und/oder `MAIL_TO` fehlen.
+
+Wichtig: Das Formular meldet dem Besucher immer „Danke" (die Anfrage ist in
+`anfragen.jsonl` gesichert) – ob die E-Mail rausging, steht **nur im Log**. Nach
+Änderung der SMTP-Variablen den Stack neu deployen.
 3. **Deploy the stack.** Healthcheck: `http://<host>:8080/api/health` → `{"ok":true}`.
 4. Im Nginx Proxy Manager einen Proxy-Host auf Port `8080` anlegen (Domain + Let's Encrypt).
 

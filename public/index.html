@@ -48,8 +48,9 @@
   .btn-primary:hover{transform:translateY(-2px);background:var(--accent-2)}
   .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
-  .btn-light{background:var(--paper);color:var(--brand-deep)}
-  .btn-light:hover{transform:translateY(-2px)}
+  /* Sitzt immer auf dunkelgrünem Band (in beiden Themes) -> feste helle Farben */
+  .btn-light{background:#eff1e9;color:#12301f}
+  .btn-light:hover{transform:translateY(-2px);background:#ffffff}
 
   /* nav */
   nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--paper) 82%,transparent);border-bottom:1px solid transparent;transition:border-color .3s}

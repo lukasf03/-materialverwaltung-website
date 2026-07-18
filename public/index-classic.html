@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materialverwaltung – Material, Mitglieder & Veranstaltungen für deine Gruppe</title>
+<meta name="description" content="Die All-in-one-Verwaltung für Pfadfinder, Jugendgruppen und Vereine: Materialbestand, Packlisten, Kalender & Fahrzeuge – plus Mitglieder & Beiträge, Rundmails, Online-Antrag, NAMI-Import, Veranstaltungen mit Online-Anmeldung, Führungszeugnis-Nachweise, komplette Vereinsbuchhaltung (CAMT-Import, Beiträge, Belege, EÜR, Finanzamt) sowie Rollen & Rechte, Aktivitätsprotokoll und DSGVO-konforme Aufbewahrung. Gehostet in Deutschland.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛺</text></svg>">
+<style>
+  :root{
+    --green-50:#eef7ee; --green-100:#d5ecd6; --green-200:#addbb0; --green-300:#7cc281;
+    --green-500:#2f7d36; --green-600:#23632a; --green-700:#1c4f23; --green-800:#183f1e; --green-900:#13331a;
+    --ink:#1e293b; --muted:#64748b; --bg:#f8fafc; --card:#ffffff; --line:#e2e8f0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  img{max-width:100%;display:block}
+  a{color:var(--green-600)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* Nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;gap:28px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none}
+  .brand span.logo{font-size:26px}
+  .nav-links{display:flex;gap:22px;margin-left:auto}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500}
+  .nav-links a:hover{color:var(--green-600)}
+  .btn{display:inline-block;padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;transition:.15s}
+  .btn-primary{background:var(--green-500);color:#fff}
+  .btn-primary:hover{background:var(--green-600)}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--green-300);color:var(--green-700)}
+  .nav-cta{margin-left:8px;padding:9px 18px}
+
+  /* Hero */
+  header.hero{background:linear-gradient(180deg,var(--green-50) 0%,var(--bg) 100%);padding:80px 0 40px;text-align:center}
+  .eyebrow{display:inline-block;background:var(--green-100);color:var(--green-700);font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px;margin-bottom:20px}
+  h1{font-size:clamp(32px,5vw,52px);line-height:1.15;letter-spacing:-.02em;max-width:860px;margin:0 auto 18px}
+  h1 em{font-style:normal;color:var(--green-600)}
+  .sub{font-size:19px;color:var(--muted);max-width:700px;margin:0 auto 30px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+  .trust{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;color:var(--muted);font-size:14px}
+  .trust span::before{content:"✓ ";color:var(--green-500);font-weight:700}
+
+  /* Browser-Frame */
+  .frame{max-width:980px;margin:44px auto 0;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 24px 60px -18px rgba(19,51,26,.25);overflow:hidden}
+  .frame .bar{display:flex;gap:6px;padding:11px 14px;background:#f1f5f9;border-bottom:1px solid var(--line)}
+  .frame .bar i{width:11px;height:11px;border-radius:50%;background:#cbd5e1}
+  .frame .bar i:nth-child(1){background:#f87171}.frame .bar i:nth-child(2){background:#fbbf24}.frame .bar i:nth-child(3){background:#34d399}
+
+  section{padding:76px 0}
+  .kicker{color:var(--green-600);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+  h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.01em;margin-bottom:14px}
+  .lead{color:var(--muted);font-size:17px;max-width:660px}
+  .center{text-align:center}.center .lead{margin:0 auto}
+
+  /* Zwei-Säulen-Band */
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:44px;text-align:left}
+  .pillar{border:1px solid var(--line);border-radius:16px;padding:32px 30px;background:var(--card)}
+  .pillar .tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--green-700);background:var(--green-50);padding:6px 12px;border-radius:999px;margin-bottom:16px}
+  .pillar h3{font-size:22px;margin-bottom:8px}
+  .pillar p{color:var(--muted);font-size:15px;margin-bottom:16px}
+  .pillar ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .pillar li{font-size:13.5px;font-weight:500;color:var(--green-800);background:var(--green-50);border:1px solid var(--green-100);border-radius:8px;padding:6px 11px}
+
+  /* Feature-Grid */
+  .cluster-label{display:flex;align-items:center;gap:12px;margin:56px 0 4px;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-700)}
+  .cluster-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+  .card .ico{font-size:28px;margin-bottom:12px}
+  .card h3{font-size:17px;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:14.5px}
+
+  /* Detail-Sektionen */
+  .feature{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:56px 0}
+  .feature .frame{margin:0}
+  .feature ul{list-style:none;margin-top:18px}
+  .feature li{padding-left:26px;position:relative;margin-bottom:10px;color:var(--ink);font-size:15.5px}
+  .feature li::before{content:"✓";position:absolute;left:0;color:var(--green-500);font-weight:800}
+  .feature.rev .txt{order:2}.feature.rev .vis{order:1}
+  .alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{text-align:center;max-width:660px;margin:0 auto}
+
+  /* Nutzen-Band */
+  .benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:44px}
+  .benefit{background:var(--green-800);border-radius:16px;padding:34px 30px;color:#fff;text-align:left}
+  .benefit .ico{font-size:34px;margin-bottom:14px}
+  .benefit h3{font-size:20px;margin-bottom:10px;color:#fff}
+  .benefit p{color:var(--green-100);font-size:15px}
+
+  /* Zahlen */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:40px}
+  .stat{text-align:center;padding:26px;background:var(--green-800);border-radius:14px;color:#fff}
+  .stat b{display:block;font-size:34px;color:var(--green-200)}
+  .stat span{font-size:14px;color:var(--green-100)}
+
+  /* Preise */
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:44px;align-items:stretch}
+  .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 26px;text-align:left;display:flex;flex-direction:column;position:relative}
+  .plan.hot{border:2px solid var(--green-500);box-shadow:0 16px 40px -16px rgba(19,51,26,.25)}
+  .plan .tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--green-500);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:999px}
+  .plan h3{font-size:18px;margin-bottom:6px}
+  .plan .price{font-size:38px;font-weight:800;color:var(--green-700)}
+  .plan .price small{font-size:15px;font-weight:500;color:var(--muted)}
+  .plan .per{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+  .plan ul{list-style:none;margin:0 0 24px}
+  .plan li{padding-left:24px;position:relative;margin-bottom:9px;font-size:14.5px}
+  .plan li::before{content:"✓";position:absolute;left:0;color:var(--green-500);font-weight:800}
+  .plan .btn{margin-top:auto;text-align:center}
+
+  /* Formular */
+  .form-card{max-width:640px;margin:40px auto 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:34px;text-align:left}
+  .form-card label{display:block;font-weight:600;font-size:14px;margin:16px 0 6px}
+  .form-card input,.form-card select,.form-card textarea{width:100%;padding:11px 13px;border:1px solid #cbd5e1;border-radius:9px;font:inherit;font-size:15px;background:#fff}
+  .form-card input:focus,.form-card select:focus,.form-card textarea:focus{outline:none;border-color:var(--green-300);box-shadow:0 0 0 3px var(--green-100)}
+  .form-card .hp{position:absolute;left:-9999px;opacity:0}
+  .form-msg{margin-top:16px;padding:12px 16px;border-radius:9px;font-size:14.5px;display:none}
+  .form-msg.ok{display:block;background:var(--green-50);color:var(--green-700)}
+  .form-msg.err{display:block;background:#fef2f2;color:#b91c1c}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:40px auto 0}
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:600;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  summary::after{content:"+";font-size:22px;color:var(--green-500);font-weight:400}
+  details[open] summary::after{content:"–"}
+  details p{margin-top:12px;color:var(--muted);font-size:15px}
+
+  /* CTA-Block */
+  .cta-block{background:var(--green-800);border-radius:20px;padding:64px 40px;text-align:center;color:#fff}
+  .cta-block h2{color:#fff}
+  .cta-block p{color:var(--green-100);max-width:560px;margin:0 auto 28px}
+  .btn-light{background:#fff;color:var(--green-800)}
+  .btn-light:hover{background:var(--green-100)}
+
+  footer{padding:44px 0;color:var(--muted);font-size:14px}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  .foot a{color:var(--muted);text-decoration:none;margin-left:18px}
+  .foot a:hover{color:var(--green-600)}
+
+  @media (max-width:860px){
+    .nav-links{display:none}
+    .pillars{grid-template-columns:1fr}
+    .feature{grid-template-columns:1fr;gap:28px;padding:40px 0}
+    .feature.rev .txt{order:1}.feature.rev .vis{order:2}
+    section{padding:56px 0}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="#"><span class="logo">⛺</span> Materialverwaltung</a>
+    <div class="nav-links">
+      <a href="#funktionen">Funktionen</a>
+      <a href="#material">Material</a>
+      <a href="#mitglieder">Mitglieder</a>
+      <a href="#veranstaltungen">Events</a>
+      <a href="#finanzen">Finanzen</a>
+      <a href="#preise">Preise</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="btn btn-primary nav-cta" href="#anfrage">Jetzt anfragen</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Für Pfadfinder, Jugendgruppen & Vereine</span>
+    <h1><em>Material, Mitglieder &amp; Veranstaltungen</em> – alles in einer App</h1>
+    <p class="sub">Material und Packlisten, Mitglieder und Beiträge, Veranstaltungen mit Online-Anmeldung,
+    Führungszeugnis-Nachweise und sogar die komplette Vereinsbuchhaltung. Statt Excel, Zettel und vielen
+    einzelnen Tools verwaltet ihr alles rund um eure Gruppe an einem Ort.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#anfrage">Jetzt anfragen</a>
+      <a class="btn btn-ghost" href="#preise">Preise ansehen</a>
+    </div>
+    <div class="trust">
+      <span>Gehostet in Deutschland (Hetzner)</span>
+      <span>Ohne Einrichtungsgebühr</span>
+      <span>Aus der Praxis entstanden</span>
+    </div>
+    <div class="frame">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <img src="assets/dashboard.png" alt="Dashboard der Materialverwaltung" loading="eager">
+    </div>
+  </div>
+</header>
+
+<section id="funktionen">
+  <div class="wrap center">
+    <div class="kicker">Fünf Bereiche, eine App</div>
+    <h2>Alles für eure Gruppe – ohne Tool-Wildwuchs</h2>
+    <p class="lead">Die Materialverwaltung ist aus einem Materiallager-Tool zur kompletten
+    Gruppenverwaltung gewachsen: Ausrüstung, Mitglieder, Veranstaltungen, Nachweise und Buchhaltung
+    greifen ineinander und laufen in <em>einer</em> Oberfläche mit euren Vereinsfarben.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="tag">📦 Material & Ausrüstung</span>
+        <h3>Wissen, was ihr habt – und sicher losfahren</h3>
+        <p>Vom Zeltekeller bis zur Sommerlager-Packliste: Bestand, Sets, Packlisten mit Gewicht,
+        Kalender mit Konfliktwarnung und Fahrzeuge mit Zuladungsberechnung.</p>
+        <ul>
+          <li>Materialbestand & Artikel</li><li>Sets</li><li>Packlisten & PDF</li>
+          <li>Kalender & Konflikte</li><li>Fahrzeuge & Zuladung</li><li>QR-Scanner</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <span class="tag">👥 Mitglieder & Kommunikation</span>
+        <h3>Mitglieder, Beiträge und Post im Griff</h3>
+        <p>Mitgliederliste mit Status und Beitragsstufen, öffentlicher Online-Antrag mit
+        Formular-Baukasten, Serien-E-Mails mit Platzhaltern und Import direkt aus der DPSG-NAMI.</p>
+        <ul>
+          <li>Mitgliederverwaltung</li><li>Beitragsstufen</li><li>Online-Antrag</li>
+          <li>Rundmails</li><li>NAMI-Import</li><li>Familien & Gruppen</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <span class="tag">🎪 Veranstaltungen & Anmeldung</span>
+        <h3>Lager planen, Anmeldungen automatisch einsammeln</h3>
+        <p>Veranstaltungen mit öffentlicher Online-Anmeldung, Preisstufen und Warteliste.
+        Teilnehmerlisten, Zahlungen, Rabattcodes und Event-Mails inklusive – ein vollwertiges
+        Anmelde- und Teilnehmermanagement.</p>
+        <ul>
+          <li>Online-Anmeldung</li><li>Preisstufen & Anzahlung</li><li>Warteliste</li>
+          <li>Teilnehmer & Export</li><li>Zahlungen & Rabatte</li><li>Event-Mails</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <span class="tag">📜 Nachweise & Pflichten</span>
+        <h3>Führungszeugnisse & Kurse immer im Blick</h3>
+        <p>Wer braucht welchen Nachweis, was läuft bald ab? Führungszeugnisse und befristete
+        Nachweise (Erste Hilfe, Juleica …) mit Pflicht je Gruppe, Gültigkeit, Erinnerungen und
+        Gebührenbefreiungs-PDF.</p>
+        <ul>
+          <li>Nachweis-Typen</li><li>Pflicht je Gruppe</li><li>Gültigkeit & Status</li>
+          <li>Ablauf-Erinnerungen</li><li>Datenschutzkonform</li><li>Behörden-PDF</li>
+        </ul>
+      </div>
+      <div class="pillar" style="grid-column:1 / -1">
+        <span class="tag">🏦 Finanzen & Buchhaltung</span>
+        <h3>Vereinskasse, Beiträge und Finanzamt – alles beisammen</h3>
+        <p>Bankkonto per Kontoauszug (CAMT) importieren, Zahlungen automatisch den offenen Beiträgen
+        zuordnen, Belege erfassen und am Jahresende Berichte, EÜR und Gemeinnützigkeits-Auswertung
+        erzeugen. Die Beiträge fürs Sommerlager entstehen dabei direkt aus den Anmeldungen.</p>
+        <ul>
+          <li>Bankkonten & CAMT-Import</li><li>Automatische Zuordnung</li><li>Beiträge & Forderungen</li>
+          <li>Belege & Auslagen</li><li>Berichte & EÜR</li><li>Finanzamt & Gemeinnützigkeit</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cluster-label">📦 Material & Ausrüstung</div>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">📦</div><h3>Materialbestand</h3><p>Jedes Teil mit ID, Kategorie, Lagerort &amp; Regalplatz, Gewicht, Zustand und Fotos. Volltextsuche, Filter und Archiv inklusive.</p></div>
+      <div class="card"><div class="ico">🗃️</div><h3>Artikel &amp; Exemplare</h3><p>10 gleiche Zelte? Erscheinen als ein Artikel mit Bestand – aufklappbar bis zum einzelnen Exemplar mit eigener ID.</p></div>
+      <div class="card"><div class="ico">🧩</div><h3>Sets</h3><p>„Sudan komplett" mit Zelt, Heringen und Bodenplane – einmal definiert, mit einem Klick auf jeder Packliste.</p></div>
+      <div class="card"><div class="ico">🎒</div><h3>Packlisten</h3><p>Positionen mit Menge und Gepackt-Haken, Gesamtgewicht live, Druckansicht und PDF-Export für den Hänger.</p></div>
+      <div class="card"><div class="ico">📅</div><h3>Kalender &amp; Konflikte</h3><p>Alle Fahrten im Monatsblick. Ist ein Zelt in zwei Lagern gleichzeitig verplant, warnt die App automatisch.</p></div>
+      <div class="card"><div class="ico">🚐</div><h3>Fahrzeuge &amp; Zuladung</h3><p>Transporter und Anhänger mit automatisch berechneter Nutzlast. Rote Warnung, bevor der Hänger überladen ist.</p></div>
+    </div>
+
+    <div class="cluster-label">👥 Mitglieder & Kommunikation</div>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">👥</div><h3>Mitgliederverwaltung</h3><p>Alle Mitglieder mit Kontaktdaten, Status und Mitgliedsnummer. Anwärter bestätigen, Übersicht zu Beiträgen und Verteilung auf einen Blick.</p></div>
+      <div class="card"><div class="ico">💶</div><h3>Beitragsstufen</h3><p>Beiträge als Stufen (Kind, Familie, Erwachsene, Förder) mit Rhythmus und Betrag. Zahlungsstatus je Mitglied im Blick.</p></div>
+      <div class="card"><div class="ico">📝</div><h3>Online-Antrag &amp; Baukasten</h3><p>Öffentliches Antragsformular ohne Login – aus Bausteinen selbst zusammengesetzt. Neue Anträge landen direkt in der Mitgliederliste.</p></div>
+      <div class="card"><div class="ico">✉️</div><h3>Rundmails</h3><p>Serien-E-Mails mit Editor, Anhängen und Platzhaltern wie <code>{{vorname}}</code>. Empfänger aus Gruppen, Verteilern oder Kontakten.</p></div>
+      <div class="card"><div class="ico">🔄</div><h3>NAMI-Import</h3><p>Mitglieder aus der DPSG-Mitgliederverwaltung (NAMI) auf Knopfdruck übernehmen – ausschließlich lesend, per Gruppierungsnummer.</p></div>
+      <div class="card"><div class="ico">👨‍👩‍👧</div><h3>Gruppen &amp; Familien</h3><p>Mitglieder in mehreren Gruppen (z. B. Leiter zusätzlich zur Stufe) und Familien untereinander verknüpfen (Geschwister, Eltern/Kind).</p></div>
+    </div>
+
+    <div class="cluster-label">🎪 Veranstaltungen & Anmeldung</div>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">🎪</div><h3>Veranstaltungen</h3><p>Lager, Fahrten und Aktionen anlegen – mit Ort, Terminen, Kapazität und eigenem Anmeldeformular. Erstellassistent führt Schritt für Schritt.</p></div>
+      <div class="card"><div class="ico">🔗</div><h3>Öffentliche Anmeldung</h3><p>Teilnehmende melden sich selbst über einen Link oder QR-Code an – ohne Login, in euren Vereinsfarben. Formular aus Bausteinen frei gestaltbar.</p></div>
+      <div class="card"><div class="ico">🎟️</div><h3>Preisstufen &amp; Warteliste</h3><p>Mitglied, Geschwisterkind, Nicht-Mitglied – jede Anmeldung mit passendem Beitrag. Bei vollem Lager greift automatisch die Warteliste.</p></div>
+      <div class="card"><div class="ico">🧑‍🤝‍🧑</div><h3>Teilnehmerverwaltung</h3><p>Anmeldungen bestätigen, filtern (Alter, Gruppe, Essen, Zahlung …) und als Liste, Telefon-, Essens- oder Ausweis-PDF exportieren.</p></div>
+      <div class="card"><div class="ico">💳</div><h3>Zahlungen &amp; Rabatte</h3><p>Beiträge, Anzahlungen und Teilzahlungen je Teilnehmer mit Zahlungsverlauf. Rabattcodes (fest oder prozentual) inklusive.</p></div>
+      <div class="card"><div class="ico">📨</div><h3>Event-Mails</h3><p>Bestätigung, Erinnerung, Zahlungshinweis – fertige Vorlagen mit Platzhaltern wie <code>{{betrag}}</code>, pro Veranstaltung anpassbar.</p></div>
+    </div>
+
+    <div class="cluster-label">📜 Nachweise & Pflichten</div>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">📜</div><h3>Führungszeugnisse</h3><p>Einsichtnahme dokumentieren, ohne das Dokument selbst zu speichern – datenschutzkonform nach §72a SGB VIII, inkl. Gebührenbefreiungs-PDF fürs Amt.</p></div>
+      <div class="card"><div class="ico">⏳</div><h3>Befristete Nachweise</h3><p>Erste-Hilfe-Kurs, Juleica &amp; Co. mit Gültigkeitsdauer. Status wird automatisch abgeleitet: gültig, läuft ab, abgelaufen oder fehlt.</p></div>
+      <div class="card"><div class="ico">🔔</div><h3>Pflicht &amp; Erinnerungen</h3><p>Legt fest, welche Gruppe welchen Nachweis braucht. Vor Ablauf verschickt die App eine Sammel-Erinnerung an die Betroffenen.</p></div>
+    </div>
+
+    <div class="cluster-label">🏦 Finanzen & Buchhaltung</div>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">🏦</div><h3>Bankkonten &amp; Import</h3><p>Bankkonto und Barkasse abbilden, Kontoauszüge im CAMT-Format importieren – mit Dublettenerkennung und Regeln, die Buchungen automatisch kategorisieren.</p></div>
+      <div class="card"><div class="ico">🔁</div><h3>Automatische Zuordnung</h3><p>Zahlungen werden per Verwendungszweck automatisch den offenen Beiträgen zugeordnet. Auch Sammelüberweisungen (mehrere Kinder) erkennt die App.</p></div>
+      <div class="card"><div class="ico">🧮</div><h3>Beiträge &amp; Forderungen</h3><p>Forderungen an Mitglieder und Teilnehmende, automatisch zu Sammlungen gruppiert – mit Fortschrittsbalken „bezahlt / offen". Lager-Beiträge entstehen aus den Anmeldungen.</p></div>
+      <div class="card"><div class="ico">🧾</div><h3>Belege &amp; Auslagen</h3><p>Rechnungen und Quittungen (PDF/Bild) hochladen, Buchungen zuordnen, private Auslagen erfassen und erstatten – inkl. Eigenbeleg mit Unterschrift.</p></div>
+      <div class="card"><div class="ico">📊</div><h3>Berichte &amp; EÜR</h3><p>Auswertungen nach Kostenstelle und Kategorie, Einzelnachweise, Kassenprüfung und Einnahmen-Überschuss-Rechnung – als PDF, CSV oder Excel.</p></div>
+      <div class="card"><div class="ico">🏛️</div><h3>Finanzamt &amp; Gemeinnützigkeit</h3><p>Belegarchiv-Export (GoBD) und Auswertung nach den vier Sphären der Gemeinnützigkeit – die perfekte Vorbereitung für Kassenprüfung und Steuererklärung.</p></div>
+    </div>
+
+    <div class="cluster-label">🔒 Plattform, Rechte & Datenschutz</div>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">📊</div><h3>Dashboard &amp; Hinweise</h3><p>Die Startseite bündelt alle Bereiche: offene Anträge, fällige Zahlungen, ablaufende Nachweise, kommende Termine. Admins blenden oben eigene Hinweise ein – auch nur für bestimmte Rollen oder Personen, befristet oder dauerhaft.</p></div>
+      <div class="card"><div class="ico">🔑</div><h3>Rollen &amp; Rechte</h3><p>Wer darf was? Von „nur Dashboard ansehen" bis Vollzugriff – Rechte lassen sich pro Rolle und zusätzlich pro Person fein einstellen. So sieht die Kassenwartin die Buchhaltung, die Stufenleitung nur ihre Gruppe.</p></div>
+      <div class="card"><div class="ico">🧾</div><h3>Aktivitätsprotokoll</h3><p>Jede Änderung wird festgehalten: wer hat wann was angelegt, geändert, gelöscht oder importiert. Filterbar und nachvollziehbar – wichtig bei mehreren Verantwortlichen.</p></div>
+      <div class="card"><div class="ico">🎨</div><h3>Euer Branding</h3><p>Systemname, Logo, Favicon und eure Vereinsfarben stellt ihr in den Einstellungen ein – die ganze App und die öffentlichen Formulare übernehmen sie automatisch.</p></div>
+      <div class="card"><div class="ico">🛡️</div><h3>Datenschutz &amp; Aufbewahrung</h3><p>DSGVO-konform gedacht: einstellbare Aufbewahrungsfristen mit Löschlauf, Anonymisierung ausgetretener Mitglieder (Historie bleibt schlüssig), besondere Sperre für Führungszeugnisse und eine Datenschutz-Vorlage zum Einfügen.</p></div>
+      <div class="card"><div class="ico">📥</div><h3>Import, Export &amp; Freigaben</h3><p>Bestehende Listen per CSV importieren, alles als CSV/Excel/PDF exportieren, Packlisten per schreibgeschütztem Link teilen – und auf Wunsch komplett selbst hosten.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MATERIAL EINBLICKE ================= -->
+<div class="alt" id="material">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Material & Ausrüstung</div>
+      <h2>Vom Zeltekeller bis zum gepackten Hänger</h2>
+      <p class="lead">Bestand, Packlisten, Kalender und Fahrzeuge – die Ausrüstungsseite der App
+      im Detail.</p>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Materialbestand</div>
+        <h2>Wissen, was ihr habt – und wo es liegt</h2>
+        <p class="lead">Die Materialliste zeigt euren kompletten Bestand: durchsuchbar, filterbar, sortierbar.
+        Gleiche Materialien werden automatisch zu Artikeln gebündelt.</p>
+        <ul>
+          <li>Volltextsuche über Titel, ID, Hersteller und Farbe</li>
+          <li>Artikel-Ansicht mit Bestand oder jedes Exemplar einzeln</li>
+          <li>Lagerort &amp; Regalplatz – nie wieder suchen</li>
+          <li>Archiv statt löschen: alles bleibt nachvollziehbar</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/materialien-artikel.png" alt="Materialliste mit Artikel-Ansicht" loading="lazy"></div>
+    </div>
+
+    <div class="feature rev">
+      <div class="txt">
+        <div class="kicker">Packlisten & Fahrzeuge</div>
+        <h2>Vom Plan zum gepackten Hänger</h2>
+        <p class="lead">Packliste anlegen, Material oder ganze Sets hinzufügen, abhaken – fertig.
+        Fahrzeuge zuordnen, und der Zuladungsbalken warnt, bevor der Hänger zu schwer wird.</p>
+        <ul>
+          <li>Gesamtgewicht live mitgerechnet</li>
+          <li>Ampel-Balken: grün, gelb ab 80 %, rot bei Überladung</li>
+          <li>Schreibgeschützter Freigabe-Link für Eltern &amp; Helfer (ohne Login, mit PDF)</li>
+          <li>Listen kopieren und als Vorlage fürs nächste Lager nutzen</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/packliste-detail.png" alt="Packliste mit Zuladung und Freigabe" loading="lazy"></div>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Kalender</div>
+        <h2>Doppelbelegung? Merkt die App vor euch</h2>
+        <p class="lead">Alle Fahrten und Lager im Monatsüberblick. Überschneiden sich zwei Packlisten
+        und ist dasselbe Zelt in beiden verplant, wird der Konflikt rot markiert – inklusive Liste
+        der doppelt verplanten Materialien.</p>
+        <ul>
+          <li>Jede Packliste als farbiger Balken im Kalender</li>
+          <li>Konfliktwarnung im Kalender und in der Packliste</li>
+          <li>QR-Scanner: Code auf der Kiste scannen, Details sofort sehen</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/kalender.png" alt="Kalender mit Terminkonflikten" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MITGLIEDER EINBLICKE ================= -->
+<div id="mitglieder">
+  <div class="wrap">
+    <section style="padding-bottom:0">
+      <div class="sec-head">
+        <div class="kicker">Mitglieder & Kommunikation</div>
+        <h2>Die ganze Gruppe – nicht nur ihr Material</h2>
+        <p class="lead">Mitglieder aufnehmen, Beiträge zuordnen, Post verschicken und Daten aus der
+        NAMI übernehmen. Alles im selben System, mit denselben Empfängern und Platzhaltern.</p>
+      </div>
+    </section>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Mitgliederverwaltung</div>
+        <h2>Mitglieder, Anträge und Beiträge auf einen Blick</h2>
+        <p class="lead">Die Mitgliederliste gruppiert nach Stufen, zeigt offene Anträge oben und
+        rechts eine Übersicht zu Beiträgen und Verteilung. Anwärter bestätigt ihr mit einem Klick.</p>
+        <ul>
+          <li>Mitgliedsnummer, Status (Anwärter/aktiv), Beitrag und Gruppen je Person</li>
+          <li>Übersicht: aktive & zukünftige Mitglieder, Zahlungs- und Geschlechterverteilung</li>
+          <li>Filtern, suchen, sortieren – und direkt „Mail an alle" schreiben</li>
+          <li>Adressbuch für Kontakte außerhalb der Mitgliederliste (Eltern, Externe)</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-mitglieder.png" alt="Mitgliederliste mit Anträgen und Übersicht" loading="lazy"></div>
+    </div>
+
+    <div class="feature rev">
+      <div class="txt">
+        <div class="kicker">Online-Antrag & Formular-Baukasten</div>
+        <h2>Anmelden können sich neue Mitglieder selbst</h2>
+        <p class="lead">Aktiviert das öffentliche Antragsformular, teilt den Link – neue Anträge
+        landen automatisch als Anwärter in eurer Liste. Welche Felder abgefragt werden, stellt ihr
+        aus Bausteinen selbst zusammen.</p>
+        <ul>
+          <li>Öffentliches Formular ohne Login, in euren Vereinsfarben</li>
+          <li>Baukasten mit fertigen Bausteinen (Anschrift, Gesundheit, Schwimmen …) und eigenen Feldern</li>
+          <li>Bestätigungs-Mail an Antragsteller, Benachrichtigung an euch</li>
+          <li>Antrag prüfen, bestätigen – fertiges Mitglied ohne Abtippen</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-formular-baukasten.png" alt="Formular-Baukasten für den Mitgliedsantrag" loading="lazy"></div>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Rundmails</div>
+        <h2>Eine Mail an alle – persönlich angesprochen</h2>
+        <p class="lead">Serien-E-Mails direkt aus der App: Empfänger aus Gruppen, Verteilern oder
+        Kontakten wählen, mit Editor und Anhängen schreiben und über Platzhalter jede Person
+        persönlich ansprechen.</p>
+        <ul>
+          <li>Platzhalter wie <code>{{vorname}}</code>, <code>{{anrede}}</code> oder <code>{{gruppe}}</code></li>
+          <li>Editor mit Formatierung, Anhänge und wiederverwendbare Vorlagen</li>
+          <li>Signatur, Vorschau und Versandhistorie mit Erfolg/Fehler je Adresse</li>
+          <li>Entwürfe speichern und später weiterschreiben</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-rundmail.png" alt="Rundmail-Editor mit Platzhaltern" loading="lazy"></div>
+    </div>
+
+    <div class="feature rev">
+      <div class="txt">
+        <div class="kicker">NAMI-Import (DPSG)</div>
+        <h2>Mitgliederdaten aus der NAMI – auf Knopfdruck</h2>
+        <p class="lead">Für DPSG-Stämme: Verbindet euren NAMI-Zugang und importiert eure Mitglieder
+        direkt in die Verwaltung. Der Zugriff erfolgt <strong>ausschließlich lesend</strong> – in der
+        NAMI wird nichts verändert.</p>
+        <ul>
+          <li>Import per Gruppierungsnummer, Zugangsdaten verschlüsselt gespeichert</li>
+          <li>Nur aktive Mitglieder, Stufen und Leitungen werden übernommen</li>
+          <li>Erneuter Import aktualisiert bestehende Mitglieder, eure Ergänzungen bleiben</li>
+          <li>Beitragsstufen & Standard-Beitrag zentral festgelegt</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-nami-import.png" alt="NAMI-Import-Einstellungen" loading="lazy"></div>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Gruppen & Familien</div>
+        <h2>Mehrere Gruppen, echte Familien</h2>
+        <p class="lead">Ein Mitglied kann in mehreren Gruppen sein – die Leiterin zählt zu ihrer Stufe
+        <em>und</em> zur Leiterrunde. Und Familien lassen sich untereinander verknüpfen, damit
+        Geschwister und Eltern zusammengehören.</p>
+        <ul>
+          <li>Mehrfachauswahl der Gruppen pro Mitglied</li>
+          <li>Familien-Verknüpfungen (Geschwister, Eltern/Kind, Partner) – bei beiden sichtbar</li>
+          <li>Zahlungsart, Beitragsstufe und Zahlungsstatus je Mitglied</li>
+          <li>Automatische Mails bei Statuswechsel und zum Geburtstag</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-mitglied-detail.png" alt="Mitglied bearbeiten mit Gruppen und Familie" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= VERANSTALTUNGEN EINBLICKE ================= -->
+<div class="alt" id="veranstaltungen">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Veranstaltungen & Anmeldung</div>
+      <h2>Vom Lager bis zur letzten Anmeldung</h2>
+      <p class="lead">Ein vollwertiges Event- und Teilnehmermanagement – direkt in eurer Verwaltung,
+      ohne Zusatztool. Anlegen, veröffentlichen, Anmeldungen einsammeln, abrechnen.</p>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Öffentliche Anmeldung</div>
+        <h2>Anmeldungen kommen von selbst herein</h2>
+        <p class="lead">Veranstaltung anlegen, Anmeldeformular aktivieren, Link oder QR-Code teilen –
+        Teilnehmende melden sich selbst an, ohne Login. Die Anmeldung landet direkt in eurer Liste.</p>
+        <ul>
+          <li>Anmeldeseite mit Eckdaten, freien Plätzen und eurem Einleitungstext</li>
+          <li>Preisstufen zur Auswahl (Mitglied, Geschwisterkind, Nicht-Mitglied …)</li>
+          <li>Rabattcode-Feld und Anzeige des zu zahlenden Betrags</li>
+          <li>Ist das Lager voll, greift automatisch die Warteliste</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-event-anmeldung-public.png" alt="Öffentliche Event-Anmeldung mit Preisstufen" loading="lazy"></div>
+    </div>
+
+    <div class="feature rev">
+      <div class="txt">
+        <div class="kicker">Teilnehmer & Export</div>
+        <h2>Alle Teilnehmer sauber im Griff</h2>
+        <p class="lead">Anmeldungen bestätigen, nachrücken lassen, filtern und exportieren. Ihr seht
+        auf einen Blick, wer angemeldet, bestätigt oder auf der Warteliste ist – und wer noch zahlen muss.</p>
+        <ul>
+          <li>Status je Teilnehmer: angemeldet, bestätigt, Warteliste, storniert</li>
+          <li>Filter nach Alter, Gruppe, Ernährung, Schwimmer, Zahlung …</li>
+          <li>Export als Teilnehmer-, Telefon-, Essens- oder Ausweis-Liste (CSV/Excel/PDF)</li>
+          <li>Kommentare, Historie und Dokumente je Teilnehmer</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-event-teilnehmer.png" alt="Teilnehmerverwaltung mit Status, Zahlungen und Export" loading="lazy"></div>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Preise, Zahlungen & Mails</div>
+        <h2>Beiträge, Rabatte und Post – automatisch</h2>
+        <p class="lead">Legt Preisstufen, eine optionale Anzahlung und Rabattcodes fest. Die App
+        rechnet pro Teilnehmer, führt einen Zahlungsverlauf und verschickt die passenden E-Mails.</p>
+        <ul>
+          <li>Preisstufen, Anzahlung und Teilzahlungen mit Zahlungsverlauf</li>
+          <li>Rabattcodes fest oder prozentual, mit Nutzungslimit</li>
+          <li>Fertige Event-Mails (Bestätigung, Erinnerung, Zahlung) mit Platzhaltern</li>
+          <li>Anmeldeformular aus Bausteinen frei gestaltbar</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-event-anmeldung.png" alt="Anmeldung, Preisstufen, Anzahlung und Rabattcodes konfigurieren" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NACHWEISE EINBLICKE ================= -->
+<div id="nachweise">
+  <div class="wrap">
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Nachweise & Pflichten</div>
+        <h2>Führungszeugnisse & Kurse rechtssicher im Blick</h2>
+        <p class="lead">Gerade in der Jugendarbeit Pflicht: Wer hat sein erweitertes Führungszeugnis
+        vorgelegt, wessen Erste-Hilfe-Kurs läuft ab? Das Nachweise-Modul behält den Überblick –
+        datenschutzkonform, ohne sensible Dokumente zu speichern.</p>
+        <ul>
+          <li>Nachweis-Typen mit Gültigkeitsdauer und Führungszeugnis-Kennzeichnung</li>
+          <li>Pflicht je Gruppe und/oder Einzelperson; Status gültig/läuft ab/abgelaufen/fehlt</li>
+          <li>Führungszeugnis: nur Einsichtnahme dokumentiert, Dokument wird nicht gespeichert</li>
+          <li>Ablauf-Erinnerungen per Sammel-Mail und Gebührenbefreiungs-PDF fürs Amt</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-nachweise.png" alt="Nachweise-Übersicht mit Status und Erinnerungen" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FINANZEN EINBLICKE ================= -->
+<div class="alt" id="finanzen">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Finanzen & Buchhaltung</div>
+      <h2>Die Vereinskasse – vom Kontoauszug bis zum Finanzamt</h2>
+      <p class="lead">Eine vollständige Buchhaltung für gemeinnützige Gruppen: Bank importieren,
+      Beiträge einsammeln, Belege ablegen und sauber auswerten. Alles verzahnt mit Mitgliedern und
+      Veranstaltungen.</p>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Konten & Import</div>
+        <h2>Kontoauszug rein, Zuordnung automatisch</h2>
+        <p class="lead">Ladet euren Kontoauszug im CAMT-Format hoch – die App erkennt Dubletten,
+        wendet eure Regeln an und ordnet Zahlungen automatisch den offenen Beiträgen zu, sogar bei
+        Sammelüberweisungen für mehrere Kinder.</p>
+        <ul>
+          <li>Bankkonto und Barkasse, Saldo und Stichtag im Blick</li>
+          <li>CAMT-Import mit Dublettenerkennung; Regeln kategorisieren automatisch</li>
+          <li>Zuordnung per Verwendungszweck: „vollständig / automatisch / nicht zugeordnet"</li>
+          <li>Manuelle Buchungen und Belege je Zahlung möglich</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-bank-konten.png" alt="Bankkonto mit importierten Buchungen und Zuordnung" loading="lazy"></div>
+    </div>
+
+    <div class="feature rev">
+      <div class="txt">
+        <div class="kicker">Beiträge & Forderungen</div>
+        <h2>Wer hat bezahlt? Auf einen Balken</h2>
+        <p class="lead">Forderungen an Mitglieder und Teilnehmende werden automatisch zu Sammlungen
+        gruppiert – mit Fortschrittsbalken „bezahlt / offen". Die Beiträge fürs Lager entstehen direkt
+        aus den Event-Anmeldungen.</p>
+        <ul>
+          <li>Sammlungen für Mitgliedsbeiträge, Lager, Fahrten …</li>
+          <li>Fortschritt je Sammlung: wie viele bezahlt, wie viel noch offen</li>
+          <li>Zahlungen per Klick zuordnen; Mahnungen als Serien-Mail</li>
+          <li>Event-Beiträge werden aus den Anmeldungen übernommen</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-bank-beitraege.png" alt="Beiträge als Sammlungen mit Fortschrittsbalken" loading="lazy"></div>
+    </div>
+
+    <div class="feature">
+      <div class="txt">
+        <div class="kicker">Berichte & Finanzamt</div>
+        <h2>Kassenprüfung und Steuer – gut vorbereitet</h2>
+        <p class="lead">Am Jahresende auf Knopfdruck: Berichte nach Kostenstelle und Kategorie,
+        Einnahmen-Überschuss-Rechnung, Belegarchiv und eine Auswertung nach den vier Sphären der
+        Gemeinnützigkeit.</p>
+        <ul>
+          <li>Bericht, Einzelnachweise, Kassenprüfung und EÜR als PDF/CSV/Excel</li>
+          <li>Belegarchiv-Export (GoBD) als ZIP für das Finanzamt</li>
+          <li>Sphären-Bericht: ideell, Vermögensverwaltung, Zweckbetrieb, wirtschaftlich</li>
+          <li>Kostenstellen & Kategorien frei strukturierbar</li>
+        </ul>
+      </div>
+      <div class="vis frame"><div class="bar"><i></i><i></i><i></i></div><img src="assets/app-bank-finanzamt.png" alt="Finanzamt-Bereich mit GoBD-Export und Sphären der Gemeinnützigkeit" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<section class="alt">
+  <div class="wrap center">
+    <div class="kicker">Der Unterschied</div>
+    <h2>Weniger Zettelwirtschaft, mehr Zeit für die Gruppe</h2>
+    <p class="lead">Ob Ausrüstung, Mitglieder oder Veranstaltungen – die App nimmt euch die fehleranfällige Handarbeit ab.</p>
+    <div class="benefits">
+      <div class="benefit">
+        <div class="ico">⚖️</div>
+        <h3>Nie wieder überladen fahren</h3>
+        <p>Jeder Packliste lassen sich eure Fahrzeuge mit ihrer Nutzlast hinterlegen. Die App rechnet das
+        Gesamtgewicht der Ladung live gegen die zulässige Zuladung – und warnt deutlich, bevor der Hänger
+        zu schwer wird. So lässt sich vor der Abfahrt alles prüfen: sicher und ohne Risiko bei der
+        nächsten Kontrolle.</p>
+      </div>
+      <div class="benefit">
+        <div class="ico">🧾</div>
+        <h3>Beiträge & Mitglieder im Griff</h3>
+        <p>Wer ist dabei, wer hat bezahlt, wer ist neu? Mitglieder mit Status und Beitragsstufe, offene
+        Anträge oben in der Liste und eine Übersicht zu Zahlungen machen aus dem Karteikasten eine
+        klare Sache – neue Mitglieder melden sich sogar selbst per Online-Antrag an.</p>
+      </div>
+      <div class="benefit">
+        <div class="ico">📮</div>
+        <h3>Eine Anlaufstelle für alles</h3>
+        <p>Material, Mitglieder, Veranstaltungen, Nachweise und Finanzen liegen im selben System –
+        dieselben Gruppen, dieselben Personen. Die Lager-Anmeldung erzeugt gleich den Beitrag, die
+        Zahlung landet auf dem Konto, der Beleg am richtigen Platz. Statt Excel, Adressbuch,
+        Mailprogramm und Kassenbuch: eine Hand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap center">
+    <div class="kicker">Sorglos gehostet</div>
+    <h2>Wir kümmern uns um die Technik</h2>
+    <p class="lead">Jede Gruppe bekommt ihre eigene, fertig eingerichtete Instanz – gehostet
+    in Deutschland (Hetzner-Rechenzentrum), inklusive Updates, Backups und SSL-Verschlüsselung.
+    Ihr packt und verwaltet, wir betreiben.</p>
+    <div class="stats">
+      <div class="stat"><b>1 App</b><span>Material, Mitglieder &amp; Events statt vieler Tools</span></div>
+      <div class="stat"><b>DE</b><span>Hosting bei Hetzner in Deutschland</span></div>
+      <div class="stat"><b>∞</b><span>Benutzer ohne Aufpreis</span></div>
+      <div class="stat"><b>5 Min</b><span>bis zur ersten Packliste</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="preise" class="alt">
+  <div class="wrap center">
+    <div class="kicker">Preise</div>
+    <h2>Ein Preis, alles drin</h2>
+    <p class="lead">Jedes Abo enthält eure eigene gehostete Instanz mit <strong>allen</strong> Funktionen –
+    Material, Mitglieder, Veranstaltungen, Nachweise und Buchhaltung, inklusive Rundmails,
+    Online-Anmeldung und NAMI-Import – mit Updates, Backups und Support, ohne Einrichtungsgebühr.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Monatsabo</h3>
+        <div class="price" style="font-size:26px">Preis folgt</div>
+        <div class="per">monatlich zahlbar, jederzeit kündbar</div>
+        <ul>
+          <li>Eigene gehostete Instanz (Hetzner, Deutschland)</li>
+          <li>Alle Funktionen &amp; unbegrenzte Benutzer</li>
+          <li>Updates, Backups &amp; SSL inklusive</li>
+          <li>Support per E-Mail</li>
+        </ul>
+        <a class="btn btn-ghost" href="#anfrage" data-paket="Monatsabo">Jetzt anfragen</a>
+      </div>
+      <div class="plan hot">
+        <span class="tag">Beliebt</span>
+        <h3>Jahresabo</h3>
+        <div class="price" style="font-size:26px">Preis folgt</div>
+        <div class="per">jährlich zahlbar – günstiger als monatlich</div>
+        <ul>
+          <li>Eigene gehostete Instanz (Hetzner, Deutschland)</li>
+          <li>Alle Funktionen &amp; unbegrenzte Benutzer</li>
+          <li>Updates, Backups &amp; SSL inklusive</li>
+          <li>Support per E-Mail</li>
+        </ul>
+        <a class="btn btn-primary" href="#anfrage" data-paket="Jahresabo">Jetzt anfragen</a>
+      </div>
+      <div class="plan">
+        <h3>Lifetime-Lizenz</h3>
+        <div class="price" style="font-size:26px">Preis folgt <small>· einmalig</small></div>
+        <div class="per">zum Selbst-Hosten auf eigener Infrastruktur</div>
+        <ul>
+          <li>Aktuelle Version zum Zeitpunkt des Kaufs</li>
+          <li>Betrieb auf eurem eigenen Server (Docker)</li>
+          <li>Keine laufenden Kosten</li>
+          <li>Updates &amp; Betrieb in Eigenverantwortung</li>
+        </ul>
+        <a class="btn btn-ghost" href="#anfrage" data-paket="Lifetime-Lizenz">Jetzt anfragen</a>
+      </div>
+    </div>
+    <p style="margin-top:22px;font-size:13.5px;color:var(--muted)">Selbst-Hosting ist ausschließlich mit der
+    Lifetime-Lizenz möglich – alle Abos laufen als von uns gehostete Version. Die konkreten Preise geben wir
+    in Kürze bekannt (jeweils inkl. USt.).</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap center">
+    <div class="kicker">Fragen &amp; Antworten</div>
+    <h2>Häufige Fragen</h2>
+    <div class="faq" style="text-align:left">
+      <details>
+        <summary>Für wen ist die Materialverwaltung gedacht?</summary>
+        <p>Für alle, die Gruppenmaterial <em>und</em> Mitglieder verwalten: Pfadfinderstämme,
+        Jugendverbände, Vereine, Freizeitteams. Überall dort, wo Zelte und Kisten gepackt werden und
+        gleichzeitig Mitglieder, Beiträge und Anmeldungen organisiert werden müssen.</p>
+      </details>
+      <details>
+        <summary>Ist das jetzt Material- oder Mitgliederverwaltung?</summary>
+        <p>Beides – und mehr. Die App hat als Materialverwaltung angefangen und deckt inzwischen fünf
+        Bereiche ab: Material &amp; Ausrüstung, Mitglieder &amp; Beiträge, Veranstaltungen mit
+        Online-Anmeldung, Nachweise (Führungszeugnisse &amp; Kurse) und die komplette Vereinsbuchhaltung.
+        Ihr nutzt alle Bereiche oder nur die, die ihr braucht – der Preis bleibt gleich.</p>
+      </details>
+      <details>
+        <summary>Was kostet das?</summary>
+        <p>Es gibt drei Modelle: Monatsabo, Jahresabo (jährlich zahlbar, günstiger als monatlich) und die
+        einmalige Lifetime-Lizenz zum Selbst-Hosten – jeweils inklusive Hosting, Updates, Backups und Support
+        und mit <em>allen</em> Funktionen. Die konkreten Preise geben wir in Kürze bekannt.</p>
+      </details>
+      <details>
+        <summary>Können sich neue Mitglieder selbst anmelden?</summary>
+        <p>Ja. Ihr aktiviert das öffentliche Antragsformular und teilt den Link (oder bettet ihn ein).
+        Welche Felder abgefragt werden, stellt ihr im Formular-Baukasten aus Bausteinen selbst zusammen.
+        Neue Anträge erscheinen als Anwärter in eurer Mitgliederliste und werden mit einem Klick bestätigt –
+        ganz ohne Abtippen.</p>
+      </details>
+      <details>
+        <summary>Wir sind ein DPSG-Stamm – können wir Daten aus der NAMI übernehmen?</summary>
+        <p>Ja. Mit eurer Gruppierungsnummer und euren NAMI-Zugangsdaten importiert die App eure aktiven
+        Mitglieder samt Stufen und Leitungen. Der Zugriff erfolgt <strong>ausschließlich lesend</strong> –
+        in der NAMI wird nichts angelegt, geändert oder gelöscht. Ein erneuter Import aktualisiert
+        bestehende Mitglieder; eure lokalen Ergänzungen bleiben erhalten.</p>
+      </details>
+      <details>
+        <summary>Können wir Lager & Fahrten inklusive Anmeldung darüber abwickeln?</summary>
+        <p>Ja, das Veranstaltungsmodul deckt den kompletten Ablauf ab – ganz ohne separates Anmeldetool: Event
+        anlegen, öffentliches Anmeldeformular aktivieren und per Link oder QR-Code teilen. Teilnehmende
+        wählen ihre Preisstufe, geben ggf. einen Rabattcode ein und melden sich verbindlich an. Ihr
+        verwaltet Zu- und Absagen, Warteliste, Zahlungen (inkl. Anzahlung und Teilzahlungen) und
+        verschickt Event-Mails – und exportiert Teilnehmer-, Essens- oder Telefonlisten als PDF/Excel.</p>
+      </details>
+      <details>
+        <summary>Ersetzt das unser Kassenbuch und die Beitragsverwaltung?</summary>
+        <p>Ja. Ihr bildet Bankkonto und Barkasse ab und importiert Kontoauszüge im CAMT-Format;
+        Zahlungen werden über den Verwendungszweck automatisch den offenen Beiträgen zugeordnet –
+        auch Sammelüberweisungen für mehrere Kinder. Beiträge (Mitgliedschaft, Lager, Fahrten) werden
+        zu Sammlungen mit Fortschritt „bezahlt / offen" gruppiert, Belege lassen sich hochladen und
+        zuordnen. Am Jahresende erzeugt die App Berichte, eine Einnahmen-Überschuss-Rechnung, ein
+        Belegarchiv (GoBD-Export) und eine Auswertung nach den vier Sphären der Gemeinnützigkeit –
+        die ideale Vorbereitung für Kassenprüfung und Steuererklärung. Hinweis: Das ist eine
+        Vorbereitungs- und Buchführungshilfe, kein Ersatz für Steuerberatung.</p>
+      </details>
+      <details>
+        <summary>Wie hilft die App bei Führungszeugnissen und Nachweisen?</summary>
+        <p>Das Nachweise-Modul zeigt je Mitglied, welche Nachweise Pflicht sind und ob sie gültig,
+        bald ablaufend, abgelaufen oder noch offen sind – z. B. das erweiterte Führungszeugnis oder ein
+        Erste-Hilfe-Kurs. Beim Führungszeugnis wird bewusst nur die <em>Einsichtnahme</em> dokumentiert,
+        nicht das Dokument selbst (§72a SGB VIII). Vor Ablauf verschickt die App Erinnerungen, und für
+        das Amt lässt sich eine Gebührenbefreiung als PDF erzeugen.</p>
+      </details>
+      <details>
+        <summary>Wie funktionieren die Rundmails?</summary>
+        <p>Ihr wählt Empfänger aus Gruppen, Verteilern, Veranstaltungen oder einzelnen Kontakten,
+        schreibt die Nachricht im Editor (inkl. Anhängen) und sprecht mit Platzhaltern wie
+        <code>{{vorname}}</code> jede Person persönlich an. Vorlagen, Signatur, Vorschau und eine
+        Versandhistorie sind dabei. Der Versand läuft über euren eigenen SMTP-Zugang.</p>
+      </details>
+      <details>
+        <summary>Wie steht es um den Datenschutz der Mitgliederdaten?</summary>
+        <p>Eure Instanz läuft in einem Hetzner-Rechenzentrum in Deutschland, verschlüsselt per SSL und
+        mit regelmäßigen Backups; jede Gruppe erhält eine eigene, getrennte Instanz. Zugriffe steuert
+        ihr über Rollen und Rechte, ein Aktivitätsprotokoll hält Änderungen fest. Für die Verarbeitung
+        personenbezogener Daten im Auftrag stellen wir eine Vereinbarung zur Auftragsverarbeitung (AVV)
+        bereit.</p>
+      </details>
+      <details>
+        <summary>Hilft die App beim Löschen von Daten nach der DSGVO?</summary>
+        <p>Ja. Ihr legt je Datenart Aufbewahrungsfristen fest; ein Löschlauf zeigt vorab, was betroffen
+        wäre, und räumt dann auf. Ausgetretene Mitglieder werden dabei standardmäßig <em>anonymisiert</em>
+        statt gelöscht, damit z. B. die Beitragshistorie schlüssig bleibt. Führungszeugnisse werden
+        besonders geschützt (das Dokument wird gar nicht gespeichert, nur die Einsichtnahme), und für die
+        Datenschutzerklärung liegt eine anpassbare Vorlage bereit. Rechtlich harte Fristen wie 10 Jahre
+        Buchhaltung oder 5 Jahre Führungszeugnis sind berücksichtigt.</p>
+      </details>
+      <details>
+        <summary>Wer darf was – und wie behalten wir den Überblick?</summary>
+        <p>Über Rollen und individuelle Zusatzrechte: von „nur Dashboard ansehen" bis Vollzugriff, pro
+        Person steuerbar. So sieht die Kassenwartin die Buchhaltung, die Stufenleitung nur ihre Gruppe.
+        Ein Aktivitätsprotokoll hält fest, wer wann was geändert hat. Und für Ankündigungen ans Team
+        blenden Admins Hinweise oben aufs Dashboard ein – wahlweise nur für bestimmte Rollen oder
+        Personen und zeitlich befristet.</p>
+      </details>
+      <details>
+        <summary>Wie kommen unsere bestehenden Listen in die App?</summary>
+        <p>Material per CSV-Import: Excel- oder Google-Sheets-Export hochladen, Spalten werden automatisch
+        erkannt, Vorschau prüfen, importieren. Mitglieder kommen per NAMI-Import, über den Online-Antrag
+        oder werden direkt angelegt.</p>
+      </details>
+      <details>
+        <summary>Können Eltern oder Helfer eine Packliste sehen, ohne einen Zugang zu haben?</summary>
+        <p>Ja – über schreibgeschützte Freigabe-Links. Wer den Link hat, sieht die Liste und kann sie als
+        PDF laden, aber nichts ändern. Der Link lässt sich jederzeit deaktivieren.</p>
+      </details>
+      <details>
+        <summary>Können wir die App selbst hosten?</summary>
+        <p>Alle Abos laufen als von uns gehostete Version – ihr müsst euch um nichts kümmern.
+        Selbst-Hosting ist ausschließlich mit der Lifetime-Lizenz (einmalig) möglich: Ihr erhaltet
+        die aktuelle Version als Docker-Container für eure eigene Infrastruktur; Betrieb und Updates
+        liegen dann in eurer Verantwortung.</p>
+      </details>
+      <details>
+        <summary>Funktioniert das auch auf dem Handy?</summary>
+        <p>Ja, die Oberfläche ist responsiv. Der QR-Scanner nutzt die Handykamera – Code auf der Kiste
+        scannen und direkt die Materialdetails sehen.</p>
+      </details>
+      <details>
+        <summary>Wie starten wir?</summary>
+        <p>Über das Anfrage-Formular unten. Wir melden uns kurz zurück, richten eure Instanz ein
+        (inklusive eurer Vereinsfarben und eurem Logo, wenn ihr mögt) und schicken euch die Zugangsdaten.
+        Bestehende Bestandslisten nehmt ihr per CSV-Import mit, Mitglieder per NAMI-Import.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="anfrage" class="alt">
+  <div class="wrap center">
+    <div class="kicker">Kontakt</div>
+    <h2>Bereit für Lager und Mitgliederjahr?</h2>
+    <p class="lead">Schreibt uns kurz, wer ihr seid und welches Paket euch interessiert –
+    wir melden uns zeitnah und richten eure Instanz ein.</p>
+    <form class="form-card" id="anfrage-form" novalidate>
+      <label for="f-name">Name *</label>
+      <input id="f-name" name="name" type="text" required autocomplete="name">
+      <label for="f-email">E-Mail *</label>
+      <input id="f-email" name="email" type="email" required autocomplete="email">
+      <label for="f-org">Gruppe / Verein</label>
+      <input id="f-org" name="org" type="text" autocomplete="organization">
+      <label for="f-paket">Gewünschtes Paket</label>
+      <select id="f-paket" name="paket">
+        <option>Jahresabo</option>
+        <option>Monatsabo</option>
+        <option>Lifetime-Lizenz</option>
+        <option>Noch unsicher – bitte beraten</option>
+      </select>
+      <label for="f-msg">Nachricht</label>
+      <textarea id="f-msg" name="nachricht" rows="4" placeholder="Erzählt uns kurz von eurer Gruppe …"></textarea>
+      <div class="hp" aria-hidden="true">
+        <label for="f-web">Website</label>
+        <input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:14px">Mit dem Absenden stimmt ihr zu, dass wir
+      eure Angaben zur Bearbeitung der Anfrage verwenden – Details in der
+      <a href="/datenschutz">Datenschutzerklärung</a>.</p>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px;border:0;cursor:pointer">Anfrage absenden</button>
+      <div class="form-msg" id="form-msg"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>⛺ <strong>Materialverwaltung</strong> – Material, Mitglieder, Veranstaltungen &amp; Finanzen für deine Gruppe</div>
+    <div>
+      <a href="/impressum">Impressum</a>
+      <a href="/datenschutz">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Paket aus den Preis-Karten ins Formular übernehmen
+  document.querySelectorAll('[data-paket]').forEach(a => {
+    a.addEventListener('click', () => {
+      const sel = document.getElementById('f-paket');
+      for (const o of sel.options) if (o.text === a.dataset.paket) sel.value = o.value || o.text;
+    });
+  });
+
+  // Anfrage absenden
+  const form = document.getElementById('anfrage-form');
+  const msg = document.getElementById('form-msg');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.className = 'form-msg';
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (!data.name || !data.email) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Bitte Name und E-Mail-Adresse ausfüllen.';
+      return;
+    }
+    const btn = form.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Wird gesendet …';
+    try {
+      const res = await fetch('/api/anfrage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || 'Senden fehlgeschlagen.');
+      form.reset();
+      msg.className = 'form-msg ok';
+      msg.textContent = 'Danke für eure Anfrage! Wir melden uns zeitnah per E-Mail.';
+    } catch (err) {
+      msg.className = 'form-msg err';
+      msg.textContent = err.message || 'Senden fehlgeschlagen. Bitte später erneut versuchen.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Anfrage absenden';
+    }
+  });
+</script>
+</body>
+</html>

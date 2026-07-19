@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Materialverwaltung – Material, Mitglieder, Events & Kasse für deine Gruppe</title>
-<meta name="description" content="Die All-in-one-Verwaltung für Pfadfinder, Jugendgruppen und Vereine: Material & Packlisten, Mitglieder & Beiträge, Veranstaltungen mit Online-Anmeldung, Führungszeugnis-Nachweise und komplette Vereinsbuchhaltung (CAMT-Import, Beiträge, Belege, Abrechnungen, EÜR, Finanzamt). Gehostet in Deutschland, ohne Einrichtungsgebühr.">
+<meta name="description" content="Die All-in-one-Verwaltung für Pfadfinder, Jugendgruppen und Vereine: Material & Packlisten mit Zuladung, Mitglieder, Warteliste & Beiträge, Veranstaltungen mit Online-Anmeldung, Führungszeugnis-Nachweise, Rundmails und komplette Vereinsbuchhaltung (CAMT-Import, Belege per Handy, Reports, EÜR, Finanzamt). Gehostet in Deutschland, ohne Einrichtungsgebühr.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛺</text></svg>">
 <style>
   :root{
@@ -90,9 +90,10 @@
   .win-bar .u{margin-left:12px;font-family:var(--mono);font-size:11px;color:var(--muted)}
   .app{display:grid;grid-template-columns:150px 1fr}
   .side{background:var(--brand);color:var(--on-brand);padding:16px 12px;display:flex;flex-direction:column;gap:3px}
-  .side .s-brand{font-weight:800;font-size:13.5px;padding:4px 8px 12px;display:flex;align-items:center;gap:8px}
+  .side .s-brand{font-weight:800;font-size:13.5px;padding:4px 8px 8px;display:flex;align-items:center;gap:8px}
   .side .s-brand .mark{width:18px;height:18px;color:var(--accent-2)}
-  .nav-i{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:9px;font-size:12.5px;color:var(--on-brand-mut);font-weight:550}
+  .s-cap{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--on-brand-mut) 75%,transparent);padding:7px 9px 2px;font-weight:650}
+  .nav-i{display:flex;align-items:center;gap:9px;padding:5.5px 9px;border-radius:9px;font-size:12.5px;color:var(--on-brand-mut);font-weight:550}
   .nav-i svg{width:15px;height:15px;flex:none}
   .nav-i.active{background:color-mix(in srgb,var(--accent) 26%,transparent);color:#fff}
   .main{padding:16px 17px;min-width:0;background:var(--card)}
@@ -154,12 +155,24 @@
   .s-list{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:11px}
   .s-list li{position:relative;padding-left:28px;font-size:15px}
   .s-list li::before{content:"✓";position:absolute;left:0;top:-1px;color:var(--accent);font-weight:800}
+  .s-list li.s-note{font-size:13.5px;color:var(--muted)}
+  .s-list li.s-note::before{content:"!";color:var(--ember)}
   .shot{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--card)}
   .shot .bar{display:flex;align-items:center;gap:6px;padding:10px 13px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--panel) 60%,var(--card))}
   .shot .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
   .shot .bar i:nth-child(1){background:#e0715f}.shot .bar i:nth-child(2){background:#e0b23d}.shot .bar i:nth-child(3){background:#5bbd7a}
   .shot .bar .u{margin-left:10px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
   .shot img{width:100%;height:auto;display:block}
+
+  /* mini gallery */
+  .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-top:30px}
+  .gal figure{margin:0;display:flex;flex-direction:column;gap:9px}
+  .gal .gs{border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:var(--card);aspect-ratio:16/10}
+  .gal .gs img{width:100%;height:100%;object-fit:cover;object-position:left top}
+  .gal figcaption{font-size:13px;color:var(--muted)}
+  .gal figcaption b{display:block;color:var(--ink);font-size:14px;font-weight:700;letter-spacing:-.01em}
+  @media (max-width:860px){.gal{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:460px){.gal{grid-template-columns:1fr}}
 
   /* feature cards */
   .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:30px}
@@ -261,6 +274,7 @@
     </a>
     <div class="nav-links">
       <a href="#bereiche">Bereiche</a>
+      <a href="#material">Material</a>
       <a href="#mitglieder">Mitglieder</a>
       <a href="#events">Events</a>
       <a href="#kasse">Finanzen</a>
@@ -282,7 +296,7 @@
     <div>
       <span class="badge rise"><span class="dot"></span> Für Pfadfinder, Jugendgruppen &amp; Vereine</span>
       <h1 class="hero-h rise">Vom Zeltlager bis zur <span class="u">Vereinskasse</span> — eine App.</h1>
-      <p class="lead rise">Material, Mitglieder, Veranstaltungen, Nachweise und Buchhaltung.
+      <p class="lead rise">Material, Mitglieder, Veranstaltungen, Nachweise, Rundmails und Buchhaltung.
         Alles, was eure Gruppe organisiert, an einem Ort — gehostet in Deutschland, aus der Praxis entstanden.</p>
       <div class="cta-row rise">
         <a class="btn btn-primary" href="#anfrage">Instanz anfragen
@@ -301,12 +315,17 @@
         <div class="app">
           <aside class="side">
             <div class="s-brand"><svg class="mark" viewBox="0 0 32 32" fill="none"><path d="M16 3 3 27h26L16 3Z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg> Stamm St. Georg</div>
+            <div class="s-cap">Übersicht</div>
             <div class="nav-i active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg> Dashboard</div>
             <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg> Mails</div>
             <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v18l4-3 4 3V3"/><path d="M13 5h6v6h-6"/></svg> Veranstaltungen</div>
+            <div class="s-cap">Menschen</div>
             <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 11a3 3 0 1 0-2-5.2"/></svg> Mitglieder</div>
             <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="M9 12l2 2 4-4"/></svg> Nachweise</div>
+            <div class="s-cap">Finanzen</div>
             <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10 12 4l9 6M5 10v9h14v-9M3 20h18"/></svg> Buchhaltung</div>
+            <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6zM14 2v4h4M9 13h6M9 17h6"/></svg> Abrechnung</div>
+            <div class="s-cap">Betrieb</div>
             <div class="nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9-5 9 5-9 5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/></svg> Material</div>
           </aside>
           <div class="main">
@@ -340,32 +359,34 @@
 <section id="bereiche">
   <div class="wrap">
     <div class="sec-head rise">
-      <span class="eyebrow"><b>◆</b>&nbsp; Fünf Bereiche · eine Oberfläche</span>
+      <span class="eyebrow"><b>◆</b>&nbsp; Sechs Bereiche · eine Oberfläche</span>
       <h2 class="sec-t">Alles rund um eure Gruppe — verzahnt statt verzettelt.</h2>
       <p class="sec-lead">Aus einem Materiallager-Tool ist die komplette Gruppenverwaltung geworden.
-        Die Bereiche teilen sich dieselben Personen, Gruppen und Termine — was ihr einmal erfasst, wirkt überall.</p>
+        Die Bereiche teilen sich dieselben Personen, Gruppen und Termine — was ihr einmal erfasst, wirkt überall.
+        Und weil nicht jede Gruppe alles braucht: Was jemand sieht, hängt an den Rechten.</p>
     </div>
     <div class="bento">
       <a class="cell tall rise" href="#material">
         <span class="wp">Wegpunkt 01 · N&nbsp;49°58′</span>
         <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/></svg></span>
         <h3>Material &amp; Ausrüstung</h3>
-        <p>Bestand mit Artikeln und Einzel-Exemplaren, Sets, Packlisten mit Gewicht und Fahrzeug-Zuladung, Kalender mit Konfliktwarnung und QR-Scanner.</p>
-        <div class="art"><div class="l"><span>Sommerlager · Hänger</span><b style="font-variant-numeric:tabular-nums">70,9 / 2.950 kg</b></div><div class="track"><i style="width:22%"></i></div><div class="l" style="color:var(--muted)"><span>Kohtenzelt · Jurte · Gaskocher</span><span>gepackt</span></div></div>
+        <p>Bestand mit Artikeln, Einzel-Exemplaren und Stückzahl-Material, Sets, Packlisten mit Gewicht und Fahrzeug-Zuladung, Kalender mit Konfliktwarnung und QR-Scanner.</p>
+        <div class="taglist"><span>Artikel &amp; Exemplare</span><span>Sets</span><span>Packlisten</span><span>Zuladung</span><span>Kalender</span><span>QR-Scan</span><span>CSV-Import</span><span>Freigabe-Link</span></div>
+        <div class="art"><div class="l"><span>Sommerlager 2026 · Bus + Hänger</span><b style="font-variant-numeric:tabular-nums">1.741,9 / 2.935 kg</b></div><div class="track"><i style="width:59%"></i></div><div class="l" style="color:var(--muted)"><span>108 Positionen</span><span>1.193,1 kg frei</span></div></div>
       </a>
       <a class="cell wide rise" href="#mitglieder">
         <span class="wp">Wegpunkt 02</span>
         <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 11a3 3 0 1 0-2-5.2"/></svg></span>
-        <h3>Mitglieder &amp; Beiträge</h3>
-        <p>Mitgliederliste mit Status und Beitragsstufen, öffentlicher Online-Antrag mit Formular-Baukasten, Familien &amp; Mehrfachgruppen und NAMI-Import.</p>
-        <div class="taglist"><span>Online-Antrag</span><span>Beitragsstufen</span><span>NAMI-Import</span></div>
+        <h3>Mitglieder, Warteliste &amp; Beiträge</h3>
+        <p>Mitgliederliste mit Status und Beitragsstufen, Warteliste mit Seniorität, öffentlicher Online-Antrag aus dem Formular-Baukasten, Kontakte &amp; Verteiler, Familien und NAMI-Import.</p>
+        <div class="taglist"><span>Online-Antrag</span><span>Warteliste</span><span>Beitragsstufen</span><span>NAMI-Import</span></div>
       </a>
       <a class="cell wide rise" href="#events">
         <span class="wp">Wegpunkt 03</span>
         <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v18l4-3 4 3V3"/><path d="M13 5h6v6h-6"/></svg></span>
         <h3>Veranstaltungen &amp; Anmeldung</h3>
-        <p>Lager und Fahrten mit öffentlicher Anmeldung, Preisstufen und Warteliste. Teilnehmerlisten, Zahlungen und Event-Mails inklusive.</p>
-        <div class="taglist"><span>Online-Anmeldung</span><span>Warteliste</span><span>Teilnehmer-Export</span></div>
+        <p>Lager und Fahrten mit öffentlicher Anmeldung, Preisstufen, Rabattcodes, Familienanmeldung und Warteliste. Teilnehmerlisten, Zahlungen und Event-Mails inklusive.</p>
+        <div class="taglist"><span>Online-Anmeldung</span><span>Familienanmeldung</span><span>Teilnehmer-Export</span></div>
       </a>
       <a class="cell rise" href="#nachweise">
         <span class="wp">Wegpunkt 04</span>
@@ -376,8 +397,14 @@
       <a class="cell rise" href="#kasse">
         <span class="wp">Wegpunkt 05</span>
         <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10 12 4l9 6M5 10v9h14v-9M3 20h18"/></svg></span>
-        <h3>Buchhaltung</h3>
-        <p>Kontoauszug (CAMT) importieren, Zahlungen automatisch zuordnen, Belege, Abrechnungen, Berichte, EÜR und Finanzamt.</p>
+        <h3>Finanzen &amp; Abrechnung</h3>
+        <p>Kontoauszug (CAMT) importieren, Zahlungen automatisch zuordnen, Belege per Handy, Reports, EÜR, Finanzamt und Maßnahmen-Abrechnung.</p>
+      </a>
+      <a class="cell rise" href="#mails">
+        <span class="wp">Wegpunkt 06</span>
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></span>
+        <h3>Kommunikation</h3>
+        <p>Serien-Mails an Gruppen, Verteiler und Teilnehmende — mit Platzhaltern, Vorlagen, Anhängen und Versandprotokoll.</p>
       </a>
     </div>
   </div>
@@ -394,7 +421,7 @@
       <div class="s-txt">
         <h3>Wissen, was ihr habt — und wo es liegt</h3>
         <p>Die Materialliste zeigt euren kompletten Bestand: durchsuchbar, filterbar, sortierbar. Gleiche Materialien bündelt die App automatisch zu Artikeln — aufklappbar bis zum einzelnen Exemplar.</p>
-        <ul class="s-list"><li>Volltextsuche über Titel, ID, Hersteller und Farbe</li><li>Lagerort &amp; Regalplatz — nie wieder suchen</li><li>Archiv statt löschen: alles bleibt nachvollziehbar</li><li>Export als CSV, Excel oder PDF</li></ul>
+        <ul class="s-list"><li>Volltextsuche über Titel, ID, Hersteller und Farbe</li><li>Lagerort &amp; Regalplatz — nie wieder suchen</li><li>Stückzahl-Material für alles, was ihr nur als Menge führt</li><li>Archiv statt löschen: alles bleibt nachvollziehbar</li><li>Export als CSV, Excel oder PDF</li></ul>
       </div>
       <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/materialien</span></div><img src="assets/materialien-artikel.png" alt="Materialliste mit Artikel-Ansicht" loading="lazy"></div>
     </div>
@@ -402,7 +429,7 @@
       <div class="s-txt">
         <h3>Packliste rein, Hänger sicher beladen</h3>
         <p>Packliste anlegen, Material oder ganze Sets hinzufügen, abhaken. Fahrzeuge zuordnen — der Zuladungsbalken warnt, bevor der Anhänger zu schwer wird.</p>
-        <ul class="s-list"><li>Gesamtgewicht live mitgerechnet</li><li>Ampel-Balken: grün, gelb ab 80 %, rot bei Überladung</li><li>Schreibgeschützter Freigabe-Link für Eltern &amp; Helfer (mit PDF)</li><li>Listen kopieren und als Vorlage nutzen</li></ul>
+        <ul class="s-list"><li>Gesamtgewicht live mitgerechnet, Nutzlast über alle Fahrzeuge</li><li>Ampel-Balken: grün, gelb ab 80 %, rot bei Überladung</li><li>Schreibgeschützter Freigabe-Link für Eltern &amp; Helfer (mit PDF)</li><li>Auf Wunsch <em>Packen per Scan</em> über denselben Link — ohne Login</li><li>Listen kopieren und als Vorlage nutzen</li></ul>
       </div>
       <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/packlisten</span></div><img src="assets/packliste-detail.png" alt="Packliste mit Zuladung und Freigabe" loading="lazy"></div>
     </div>
@@ -411,6 +438,14 @@
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div><h4>Kalender &amp; Konflikte</h4><p>Alle Fahrten im Monatsblick — ist ein Zelt doppelt verplant, warnt die App automatisch.</p></div>
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9-5 9 5-9 5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div><h4>Fahrzeuge &amp; Zuladung</h4><p>Fuhrpark mit automatisch berechneter Nutzlast und Überladungswarnung.</p></div>
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h6v6h-6z"/></svg></div><h4>QR-Scanner</h4><p>Code auf der Kiste scannen — sofort alle Details, direkt mit dem Handy im Lager.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg></div><h4>CSV-Import</h4><p>Bestand aus Excel übernehmen: Spalten zuordnen, Vorschau prüfen, Duplikate erkennen — anhängen oder ersetzen.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4z"/><path d="M4 10h16M9 6v12"/></svg></div><h4>Artikel &amp; Exemplare</h4><p>Sechs gleiche Zelte = ein Artikel mit sechs Exemplaren. Beim Packen wird immer ein konkretes Stück gebucht.</p></div>
+    </div>
+    <div class="gal rise">
+      <figure><div class="gs"><img src="assets/sets.png" alt="Set-Übersicht mit Materialbündeln" loading="lazy"></div><figcaption><b>Sets</b>Bündel wie „Sudan-Set" — mit einem Klick auf der Packliste.</figcaption></figure>
+      <figure><div class="gs"><img src="assets/kalender.png" alt="Monatskalender mit terminierten Packlisten" loading="lazy"></div><figcaption><b>Kalender</b>Alle Fahrten im Monatsblick, inklusive Konfliktwarnung.</figcaption></figure>
+      <figure><div class="gs"><img src="assets/fahrzeuge.png" alt="Fuhrpark mit Nutzlast je Fahrzeug" loading="lazy"></div><figcaption><b>Fahrzeuge</b>Fuhrpark mit automatisch berechneter Nutzlast.</figcaption></figure>
+      <figure><div class="gs"><img src="assets/scan.png" alt="QR-Scanner zum Öffnen einer Materialseite" loading="lazy"></div><figcaption><b>Scannen</b>QR-Code auf der Kiste scannen — direkt mit dem Handy.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -419,37 +454,53 @@
 <section id="mitglieder">
   <div class="wrap">
     <div class="sec-head rise">
-      <span class="eyebrow"><b>◆</b>&nbsp; Wegpunkt 02 · Mitglieder &amp; Kommunikation</span>
+      <span class="eyebrow"><b>◆</b>&nbsp; Wegpunkt 02 · Mitglieder, Warteliste &amp; Kontakte</span>
       <h2 class="sec-t">Die ganze Gruppe — nicht nur ihr Material</h2>
     </div>
     <div class="spot rise">
       <div class="s-txt">
         <h3>Mitglieder, Anträge und Beiträge auf einen Blick</h3>
         <p>Die Mitgliederliste gruppiert nach Stufen, zeigt offene Anträge oben und rechts eine Übersicht zu Beiträgen und Verteilung. Anwärter bestätigt ihr mit einem Klick.</p>
-        <ul class="s-list"><li>Mitgliedsnummer, Status, Beitrag und Gruppen je Person</li><li>Übersicht: aktive &amp; zukünftige Mitglieder, Zahlungs- und Geschlechterverteilung</li><li>Filtern, suchen, sortieren — und direkt „Mail an alle"</li><li>Adressbuch für Kontakte außerhalb der Mitgliederliste</li></ul>
+        <ul class="s-list"><li>Mitgliedsnummer, Status, Beitrag und Gruppen je Person</li><li>Übersicht: aktive &amp; zukünftige Mitglieder, Zahlungs- und Geschlechterverteilung</li><li>Mehrfachgruppen, Familien-Verknüpfungen und eigene Labels</li><li>Filtern, suchen, sortieren — und direkt „Mail an alle"</li></ul>
       </div>
       <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/mitglieder</span></div><img src="assets/app-mitglieder.png" alt="Mitgliederliste mit Anträgen und Übersicht" loading="lazy"></div>
     </div>
     <div class="spot rev rise">
       <div class="s-txt">
         <h3>Anmelden können sich neue Mitglieder selbst</h3>
-        <p>Aktiviert das öffentliche Antragsformular, teilt den Link — neue Anträge landen automatisch als Anwärter in eurer Liste. Welche Felder abgefragt werden, stellt ihr aus Bausteinen selbst zusammen.</p>
-        <ul class="s-list"><li>Öffentliches Formular ohne Login, in euren Vereinsfarben</li><li>Baukasten mit fertigen Bausteinen und eigenen Feldern</li><li>Bestätigungs-Mail an Antragsteller, Benachrichtigung an euch</li><li>Antrag prüfen, bestätigen — fertiges Mitglied ohne Abtippen</li></ul>
+        <p>Aktiviert das öffentliche Antragsformular und teilt den Link — neue Anträge landen automatisch als Anwärter in eurer Liste, ganz ohne Abtippen.</p>
+        <ul class="s-list"><li>Öffentliches Formular ohne Login, in euren Vereinsfarben</li><li>Bestätigungs-Mail an Antragsteller, Benachrichtigung an euch</li><li>Antrag prüfen, bestätigen — fertiges Mitglied mit Mitgliedsnummer</li><li>Zusatzangaben landen als eigene Felder am Datensatz</li></ul>
       </div>
-      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">Formular-Baukasten</span></div><img src="assets/app-formular-baukasten.png" alt="Formular-Baukasten für den Mitgliedsantrag" loading="lazy"></div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/mitglied-werden</span></div><img src="assets/app-mitglied-werden.png" alt="Öffentliches Antragsformular für neue Mitglieder" loading="lazy"></div>
     </div>
     <div class="spot rise">
       <div class="s-txt">
-        <h3>Eine Mail an alle — persönlich angesprochen</h3>
-        <p>Serien-E-Mails direkt aus der App: Empfänger aus Gruppen, Verteilern oder Kontakten wählen, mit Editor und Anhängen schreiben und über Platzhalter jede Person persönlich ansprechen.</p>
-        <ul class="s-list"><li>Platzhalter wie <code>{{vorname}}</code>, <code>{{anrede}}</code> oder <code>{{gruppe}}</code></li><li>Editor mit Formatierung, Anhänge und wiederverwendbare Vorlagen</li><li>Signatur, Vorschau und Versandhistorie je Adresse</li></ul>
+        <h3>Welche Felder ihr abfragt, bestimmt ihr</h3>
+        <p>Das Antragsformular ist ein Baukasten: Bausteine per Klick hinzufügen, sortieren, als Pflichtfeld markieren — von Anschrift und Geburtsdatum über Ernährung und Schwimmabzeichen bis zum Lastschriftmandat.</p>
+        <ul class="s-list"><li>Fertige Bausteine für alle gängigen Angaben</li><li>Eigene Felder für alles, was nur bei euch gebraucht wird</li><li>Live-Vorschau des Formulars beim Zusammenstellen</li><li>Jederzeit wieder auf den Standard zurücksetzbar</li></ul>
       </div>
-      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/mails</span></div><img src="assets/app-rundmail.png" alt="Mail-Editor mit Platzhaltern" loading="lazy"></div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">Formular-Baukasten</span></div><img src="assets/app-formular-baukasten.png" alt="Formular-Baukasten mit Bausteinen für den Mitgliedsantrag" loading="lazy"></div>
+    </div>
+    <div class="spot rev rise">
+      <div class="s-txt">
+        <h3>Warteliste — fair und ohne Zettelwirtschaft</h3>
+        <p>Interessierte, die noch kein Mitglied sind, führt ihr getrennt: Sie zählen bewusst nicht in Mitgliederzahlen, Beiträge oder Mails hinein. Wird ein Platz frei, seht ihr sofort, wer am längsten wartet.</p>
+        <ul class="s-list"><li>Eigene Warteliste je Stufe — samt Kontaktperson (z. B. ein Elternteil) und Notiz</li><li>Reihenfolge nach Wartezeit; beim Aufrücken bleibt die Seniorität erhalten</li><li>Beim Erreichen des Aufrück-Alters wandern Wartende automatisch in die nächste Stufe</li><li>Status je Eintrag: wartet · kontaktiert · abgelehnt</li><li>„Aufnehmen" macht daraus ein vollwertiges Mitglied — inklusive Mitgliedsnummer</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/warteliste</span></div><img src="assets/app-warteliste.png" alt="Warteliste je Stufe mit Wartezeit, Kontaktperson und Status" loading="lazy"></div>
+    </div>
+    <div class="spot rise">
+      <div class="s-txt">
+        <h3>Kontakte &amp; Verteiler für alle anderen</h3>
+        <p>Nicht jede Person im Adressbuch ist Mitglied: Ehemalige, Eltern externer Teilnehmender, der Zeltverleih, das Pfarrbüro. Die legt ihr als Kontakte an und bündelt sie zu Verteilern.</p>
+        <ul class="s-list"><li>Dieselbe Adressbasis wie Mitglieder — nur ohne Beitrag und Mitgliedsnummer</li><li>Verteiler frei zusammenstellen und wie Gruppen als Mail-Empfänger nutzen</li><li>Suche und Gruppenfilter über das ganze Adressbuch</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/kontakte</span></div><img src="assets/app-kontakte.png" alt="Adressbuch mit Kontakten und Verteilern" loading="lazy"></div>
     </div>
     <div class="feat">
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h4>Beitragsstufen</h4><p>Beiträge als Stufen mit Rhythmus und Betrag; Zahlungsstatus je Mitglied im Blick.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5l3 3M20 12a8 8 0 0 1-14 5l-3-3M17 4v3h-3M7 20v-3h3"/></svg></div><h4>NAMI-Import (DPSG)</h4><p>Mitglieder aus der NAMI auf Knopfdruck übernehmen — ausschließlich lesend, per Gruppierungsnummer.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="M7 9.5v3a2 2 0 0 0 2 2h.5M17 9.5v3a2 2 0 0 1-2 2h-.5"/></svg></div><h4>Gruppen &amp; Familien</h4><p>Mitglieder in mehreren Gruppen und Familien untereinander verknüpfen (Geschwister, Eltern/Kind).</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5l3 3M20 12a8 8 0 0 1-14 5l-3-3M17 4v3h-3M7 20v-3h3"/></svg></div><h4>NAMI-Import (DPSG)</h4><p>Mitglieder aus der NAMI auf Knopfdruck übernehmen — ausschließlich lesend, per Gruppierungsnummer. Vorher testbar.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="M7 9.5v3a2 2 0 0 0 2 2h.5M17 9.5v3a2 2 0 0 1-2 2h-.5"/></svg></div><h4>Gruppen, Familien &amp; Labels</h4><p>Mitglieder in mehreren Gruppen führen, Familien verknüpfen (Geschwister, Eltern/Kind) und frei labeln.</p></div>
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></div><h4>Automatische Mails</h4><p>Bestätigung bei Statuswechsel und Geburtstagsgruß — über dieselbe Platzhalter-Engine.</p></div>
     </div>
   </div>
@@ -466,7 +517,7 @@
       <div class="s-txt">
         <h3>Anmeldungen kommen von selbst herein</h3>
         <p>Veranstaltung anlegen, Anmeldeformular aktivieren, Link oder QR-Code teilen — Teilnehmende melden sich selbst an, ohne Login. Die Anmeldung landet direkt in eurer Liste.</p>
-        <ul class="s-list"><li>Anmeldeseite mit Eckdaten, freien Plätzen und Einleitungstext</li><li>Preisstufen zur Auswahl (Mitglied, Geschwisterkind, extern …)</li><li>Rabattcode-Feld und Anzeige des zu zahlenden Betrags</li><li>Ist das Lager voll, greift automatisch die Warteliste</li></ul>
+        <ul class="s-list"><li>Anmeldeseite mit Eckdaten, freien Plätzen und Einleitungstext</li><li>Preisstufen zur Auswahl (Mitglied, Geschwisterkind, extern …)</li><li>Familienanmeldung: mehrere Kinder in einem Durchgang</li><li>Rabattcode-Feld und Anzeige des zu zahlenden Betrags</li><li>Ist das Lager voll, greift automatisch die Warteliste</li></ul>
       </div>
       <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/anmeldung/sommerlager-2026</span></div><img src="assets/app-event-anmeldung-public.png" alt="Öffentliche Event-Anmeldung mit Preisstufen" loading="lazy"></div>
     </div>
@@ -530,9 +581,25 @@
     </div>
     <div class="spot rise">
       <div class="s-txt">
+        <h3>Belege — auch vom Lagerplatz aus</h3>
+        <p>Das digitale Belegarchiv nimmt PDF, E-Rechnung oder einfach ein Handyfoto. Für unterwegs gibt es einen QR-Code: Wer ihn scannt, lädt seinen Beleg direkt hoch — für Teams zusätzlich per PIN geschützt.</p>
+        <ul class="s-list"><li>Mobiler Beleg-Upload per Link &amp; QR-Code, ganz ohne Konto</li><li>Belegnummer, Betrag, Kostenstelle und Kategorie je Beleg</li><li>Beleg einer Buchung zuordnen — passende Vorschläge nach Betrag und Richtung</li><li>Split: einen Beleg auf mehrere Kostenstellen aufteilen</li><li>Private Auslagen markieren; die Rückzahlung erkennt der Kontoimport von selbst</li><li>Fehlt ein Fremdbeleg: Eigenbeleg als PDF mit Unterschriftfeld</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/bank/belege</span></div><img src="assets/app-bank-belege.png" alt="Belegarchiv mit Beträgen, Kategorien und Zuordnung" loading="lazy"></div>
+    </div>
+    <div class="spot rev rise">
+      <div class="s-txt">
+        <h3>Auswertungen auf Knopfdruck</h3>
+        <p>Fünf fertige Reports für Vorstand und Kassenprüfung — jeweils als PDF, CSV oder Excel, wahlweise für dieses Jahr, das letzte oder einen freien Zeitraum.</p>
+        <ul class="s-list"><li><strong>Bericht</strong> — Summen je Kostenstelle × Kategorie</li><li><strong>Einzelnachweise</strong> — alle Buchungen, optional nach Richtung</li><li><strong>Belege</strong> — alle Beleg-PDFs zu einer Mappe zusammengeführt</li><li><strong>Kassenprüfung</strong> — alle Zahlungen, auf Wunsch mit Belegen</li><li><strong>EÜR</strong> — die Einnahmen-Überschuss-Rechnung</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/bank/reports</span></div><img src="assets/app-bank-berichte.png" alt="Reports: Bericht, Einzelnachweise, Belege, Kassenprüfung und EÜR" loading="lazy"></div>
+    </div>
+    <div class="spot rise">
+      <div class="s-txt">
         <h3>Kassenprüfung und Steuer — gut vorbereitet</h3>
-        <p>Am Jahresende auf Knopfdruck: Berichte nach Kostenstelle und Kategorie, Einnahmen-Überschuss-Rechnung, Belegarchiv und eine Auswertung nach den vier Sphären der Gemeinnützigkeit.</p>
-        <ul class="s-list"><li>Bericht, Einzelnachweise, Kassenprüfung und EÜR als PDF/CSV/Excel</li><li>Belegarchiv-Export (GoBD) als ZIP für das Finanzamt</li><li>Sphären-Bericht: ideell, Vermögensverwaltung, Zweckbetrieb, wirtschaftlich</li><li>Kostenstellen &amp; Kategorien frei strukturierbar</li></ul>
+        <p>Zwei Werkzeuge speziell für Steuer und Gemeinnützigkeit: ein vollständiges Belegarchiv zum Mitgeben und die Auswertung nach den vier Sphären.</p>
+        <ul class="s-list"><li>Belegarchiv-Export als ZIP — alle Originalbelege, Index-Tabelle und Hinweistext</li><li>Sphären-Bericht: ideell, Vermögensverwaltung, Zweckbetrieb, wirtschaftlich</li><li>Zuordnung der Sphäre je Kategorie, Kostenstellen frei strukturierbar</li><li class="s-note">Der Export ist GoBD-orientiert und unterstützt die Belegablage — ein revisionssicheres Archiv im Sinne der GoBD ersetzt er ausdrücklich nicht.</li></ul>
       </div>
       <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/bank/finanzamt</span></div><img src="assets/app-bank-finanzamt.png" alt="Finanzamt-Bereich mit GoBD-Export und Sphären der Gemeinnützigkeit" loading="lazy"></div>
     </div>
@@ -547,16 +614,40 @@
       <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/abrechnung</span></div><img src="assets/app-abrechnung.png" alt="Abrechnung mit Belegen, Geldeingängen und PDF-Export" loading="lazy"></div>
     </div>
     <div class="feat">
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6zM14 2v4h4"/><path d="M9 13h6M9 17h6"/></svg></div><h4>Belege &amp; Auslagen</h4><p>Rechnungen und Quittungen hochladen, zuordnen, private Auslagen erstatten — inkl. Eigenbeleg mit Unterschrift.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><h4>Berichte &amp; EÜR</h4><p>Auswertungen nach Kostenstelle und Kategorie, Kassenprüfung und Einnahmen-Überschuss-Rechnung.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5l3 3M20 12a8 8 0 0 1-14 5l-3-3"/></svg></div><h4>Automatische Zuordnung</h4><p>Zahlungen treffen per Verwendungszweck von selbst den passenden offenen Beitrag — auch bei Sammelüberweisungen.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg></div><h4>Regeln</h4><p>Wiederkehrende Buchungen kategorisieren sich selbst — Regeln einmal anlegen und auf den Bestand anwenden.</p></div>
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg></div><h4>Kostenstellen</h4><p>Kostenstellen und Kategorien verschachtelt strukturieren, mit Farben und Sphären-Zuordnung.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5l3 3M20 12a8 8 0 0 1-14 5l-3-3"/></svg></div><h4>Automatische Zuordnung</h4><p>Zahlungen treffen per Verwendungszweck von selbst den passenden offenen Beitrag.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M7 7h8a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h8"/></svg></div><h4>Konten &amp; Barkasse</h4><p>Bankkonto und Barkassen nebeneinander, mit Saldo und frei wählbarem Stichtag.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KOMMUNIKATION ============ -->
+<section id="mails">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <span class="eyebrow"><b>◆</b>&nbsp; Wegpunkt 06 · Kommunikation</span>
+      <h2 class="sec-t">Eine Mail an alle — persönlich angesprochen</h2>
+    </div>
+    <div class="spot rise">
+      <div class="s-txt">
+        <h3>Empfänger wählen, schreiben, senden</h3>
+        <p>Serien-E-Mails direkt aus der App: Empfänger aus Gruppen, Verteilern, Kontakten oder den Teilnehmenden einer Veranstaltung wählen, mit Editor und Anhängen schreiben — und über Platzhalter jede Person persönlich ansprechen.</p>
+        <ul class="s-list"><li>Platzhalter wie <code>{{vorname}}</code>, <code>{{anrede}}</code> oder <code>{{gruppe}}</code></li><li>Editor mit Formatierung, Anhänge und wiederverwendbare Vorlagen</li><li>Signatur, Vorschau und Entwürfe zum Weiterschreiben</li><li>Versandprotokoll je Adresse: zugestellt oder mit Fehlermeldung</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/mails</span></div><img src="assets/app-rundmail.png" alt="Übersicht gesendeter Rundmails mit Empfängerzahl" loading="lazy"></div>
+    </div>
+    <div class="feat">
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="M7 9.5v3a2 2 0 0 0 2 2h.5M17 9.5v3a2 2 0 0 1-2 2h-.5"/></svg></div><h4>Verteiler</h4><p>Eigene Empfängerlisten aus Mitgliedern und Kontakten — einmal gepflegt, immer wieder nutzbar.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6zM14 2v4h4M9 13h6M9 17h6"/></svg></div><h4>Vorlagen</h4><p>Wiederkehrende Schreiben als Vorlage sichern — Einladung, Erinnerung, Beitragshinweis.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><path d="M12 11l8-8M15 3h5v5"/></svg></div><h4>Event-Mails</h4><p>Bestätigung, Erinnerung und Zahlungshinweis laufen über dieselbe Engine — direkt aus der Veranstaltung.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/></svg></div><h4>Eigener Mailserver</h4><p>Versand über euren SMTP-Zugang — mit Absendername, Antwortadresse und Test-Mail zur Prüfung.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============ PLATTFORM ============ -->
-<section id="plattform">
+<section class="alt" id="plattform">
   <div class="wrap">
     <div class="sec-head rise">
       <span class="eyebrow"><b>◆</b>&nbsp; Fundament</span>
@@ -564,13 +655,34 @@
       <p class="sec-lead">Unter allen Bereichen liegt dasselbe verlässliche Fundament: fein steuerbare Rechte,
         ein lückenloses Protokoll und ein durchdachtes Datenschutzkonzept.</p>
     </div>
+    <div class="spot rise">
+      <div class="s-txt">
+        <h3>Ein Dashboard, das sagt, was ansteht</h3>
+        <p>Nach dem Anmelden steht oben, was liegen geblieben ist: offene Mitgliedsanträge, unbezahlte Lagerbeiträge, ablaufende Nachweise. Darunter Kennzahlen, die nächsten Termine und die letzten Änderungen — jeweils nur aus den Bereichen, für die jemand Rechte hat.</p>
+        <ul class="s-list"><li>Handlungsbedarf über alle Bereiche hinweg, mit Sprung zur Stelle</li><li>Schnellaktionen für Material, Packliste, Veranstaltung, Mitglied und Mail</li><li>Eigene Hinweise mit Stufe, Zeitfenster und Zielgruppe einblenden</li><li>Kennzahlen zu Mitgliedern, Material, Nachweisen und Terminen</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">Dashboard</span></div><img src="assets/dashboard.png" alt="Dashboard mit Handlungsbedarf, Kennzahlen und Terminen" loading="lazy"></div>
+    </div>
+    <div class="spot rev rise">
+      <div class="s-txt">
+        <h3>Eure Instanz, euer Auftritt</h3>
+        <p>Name, Logo, Favicon und Vereinsfarben stellt ihr selbst ein — die ganze App übernimmt sie, bis hin zu den öffentlichen Anmeldeseiten. Die Seitenleiste bündelt die Bereiche in <em>Übersicht</em>, <em>Menschen</em>, <em>Finanzen</em> und <em>Betrieb</em>; was jemand davon sieht, hängt an den Rechten.</p>
+        <ul class="s-list"><li>Farben, Logo und Systemname zentral in den Einstellungen</li><li>Hell- und Dunkel-Design, pro Gerät umschaltbar</li><li>Kategorien, Lagerorte und Pflichtfelder selbst festlegen</li><li>Impressum und Datenschutzerklärung direkt in der App pflegen</li></ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i><span class="u">/einstellungen</span></div><img src="assets/einstellungen-allgemein.png" alt="Einstellungen mit Branding, Farben und Systemname" loading="lazy"></div>
+    </div>
     <div class="feat">
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></div><h4>Dashboard &amp; Hinweise</h4><p>Rollenbasiertes Dashboard mit Handlungsbedarf über alle Bereiche; eigene Hinweise für Gruppen oder einzelne Personen.</p></div>
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/></svg></div><h4>Rollen &amp; Rechte</h4><p>Granulare Rechte pro Person — von „nur Dashboard" bis Vollzugriff, mit Rollen und individuellen Zusatzrechten.</p></div>
       <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h10"/></svg></div><h4>Aktivitätsprotokoll</h4><p>Wer hat wann was angelegt, geändert, gelöscht oder importiert — automatisch und filterbar.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18"/></svg></div><h4>Euer Branding</h4><p>Name, Logo, Favicon und Vereinsfarben stellt ihr selbst ein — die ganze App passt sich an.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="M12 8v4M12 15h.01"/></svg></div><h4>Datenschutz &amp; Aufbewahrung</h4><p>Aufbewahrungsfristen mit Löschlauf und Anonymisierung, Datei-Sperre für Führungszeugnisse, AVV auf Wunsch.</p></div>
-      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg></div><h4>Import, Export &amp; Freigaben</h4><p>CSV-Import mit Vorschau, Export als CSV/Excel/PDF und schreibgeschützte Freigabe-Links ohne Login.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="M12 8v4M12 15h.01"/></svg></div><h4>Aufbewahrung &amp; Löschkonzept</h4><p>Durchsetzbare Fristen je Datenart. Jeder Lauf zeigt erst eine Vorschau; ausgetretene Mitglieder werden auf Wunsch anonymisiert statt gelöscht, damit die Beitragshistorie schlüssig bleibt. Im Auslieferungszustand ist jede Regel aus.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg></div><h4>Import, Export &amp; Freigaben</h4><p>CSV-Import mit Vorschau, Export als CSV/Excel/PDF und schreibgeschützte Freigabe-Links ohne Login — jederzeit widerrufbar.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14A8.5 8.5 0 1 1 10 3.5a7 7 0 0 0 10.5 10.5Z"/></svg></div><h4>Hell &amp; Dunkel</h4><p>Die ganze App gibt es in einem hellen und einem dunklen Design — umschaltbar in der Seitenleiste, gespeichert je Gerät.</p></div>
+    </div>
+    <div class="gal rise">
+      <figure><div class="gs"><img src="assets/app-mitglied-detail.png" alt="Mitglieds-Detailansicht mit Stammdaten und Beitrag" loading="lazy"></div><figcaption><b>Mitglieds-Akte</b>Stammdaten, Gruppen, Beitrag, Nachweise und Historie an einer Stelle.</figcaption></figure>
+      <figure><div class="gs"><img src="assets/app-veranstaltungen.png" alt="Übersicht aller Veranstaltungen mit Anmeldelinks" loading="lazy"></div><figcaption><b>Veranstaltungen</b>Alle Lager und Fahrten mit Status, Teilnehmerzahl und Anmeldelink.</figcaption></figure>
+      <figure><div class="gs"><img src="assets/app-abrechnung-liste.png" alt="Übersicht der Abrechnungen" loading="lazy"></div><figcaption><b>Abrechnungen</b>Jede Maßnahme als eigene Abrechnung — offen oder abgeschlossen.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -641,9 +753,11 @@
     </div>
     <div class="faq">
       <details class="rise" open><summary>Für wen ist die App gedacht?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Für alle, die Gruppenmaterial und Menschen verwalten: Pfadfinderstämme, Jugendverbände, Vereine und Freizeitteams — überall dort, wo Ausrüstung gepackt und gleichzeitig Mitglieder, Anmeldungen und Kasse organisiert werden.</p></details>
-      <details class="rise"><summary>Müssen wir alle fünf Bereiche nutzen?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Nein. Ihr nutzt genau die Bereiche, die ihr braucht — der Preis bleibt gleich. Sie greifen aber ineinander: Eine Event-Anmeldung erzeugt z. B. gleich den passenden Beitrag in der Kasse.</p></details>
+      <details class="rise"><summary>Müssen wir alle sechs Bereiche nutzen?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Nein. Ihr nutzt genau die Bereiche, die ihr braucht — der Preis bleibt gleich. Fehlt einer Person das Recht für einen Bereich, blendet das Menü ihn komplett aus. Die Bereiche greifen aber ineinander: Eine Event-Anmeldung erzeugt z. B. gleich den passenden Beitrag in der Kasse.</p></details>
+      <details class="rise"><summary>Wie kommen Belege vom Lager in die Buchhaltung?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Über einen Link mit QR-Code: Wer einkauft, fotografiert die Quittung mit dem Handy und lädt sie direkt hoch — ohne Konto und ohne App. Für ein ganzes Team lässt sich der Zugang zusätzlich mit einer PIN schützen. In der Buchhaltung landet der Beleg im Archiv und kann einer Buchung zugeordnet, auf mehrere Kostenstellen aufgeteilt oder als private Auslage markiert werden.</p></details>
       <details class="rise"><summary>Können sich neue Mitglieder und Teilnehmende selbst anmelden?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Ja — über öffentliche Formulare ohne Login. Für Mitgliedschaft und für jede Veranstaltung stellt ihr das Formular aus Bausteinen selbst zusammen und teilt Link oder QR-Code. Anträge und Anmeldungen landen direkt in eurer Liste.</p></details>
-      <details class="rise"><summary>Ersetzt das unser Kassenbuch?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Ja. Ihr bildet Bankkonto und Barkasse ab, importiert Kontoauszüge im CAMT-Format und lasst Zahlungen automatisch offenen Beiträgen zuordnen. Am Jahresende erzeugt die App Berichte, EÜR, ein Belegarchiv (GoBD-Export) und die Auswertung nach den vier Sphären der Gemeinnützigkeit — als Vorbereitung für Kassenprüfung und Steuer. Ein Ersatz für Steuerberatung ist es nicht.</p></details>
+      <details class="rise"><summary>Ersetzt das unser Kassenbuch?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Ja. Ihr bildet Bankkonto und Barkasse ab, importiert Kontoauszüge im CAMT-Format und lasst Zahlungen automatisch offenen Beiträgen zuordnen. Am Jahresende erzeugt die App Bericht, Einzelnachweise, Kassenprüfung und EÜR, dazu ein Belegarchiv als ZIP und die Auswertung nach den vier Sphären der Gemeinnützigkeit — als Vorbereitung für Kassenprüfung und Steuer. Zwei Einschränkungen nennen wir offen: Der Belegarchiv-Export ist GoBD-orientiert, aber <strong>kein revisionssicheres Archiv</strong> im Sinne der GoBD, und eine Steuerberatung ersetzt die App nicht.</p></details>
+      <details class="rise"><summary>Wir haben mehr Anfragen als Plätze — hilft uns das?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Dafür gibt es die Warteliste. Interessierte werden je Stufe getrennt geführt und zählen bewusst nicht in Mitgliederzahlen, Beiträge oder Mails hinein. Sortiert wird nach Wartezeit — wer am längsten wartet, steht oben. Erreicht ein Kind das Aufrück-Alter, wandert es automatisch in die nächste Stufe und behält dabei seine Wartezeit. Wird ein Platz frei, macht ein Klick auf „Aufnehmen" daraus ein vollwertiges Mitglied.</p></details>
       <details class="rise"><summary>Wir sind ein DPSG-Stamm — können wir Daten aus der NAMI übernehmen?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Ja. Mit eurer Gruppierungsnummer und euren NAMI-Zugangsdaten importiert die App eure aktiven Mitglieder samt Stufen und Leitungen. Der Zugriff erfolgt <strong>ausschließlich lesend</strong> — in der NAMI wird nichts verändert.</p></details>
       <details class="rise"><summary>Wie steht es um Datenschutz und Rechte?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Eure Instanz läuft in Deutschland, verschlüsselt und mit Backups; jede Gruppe erhält eine eigene, getrennte Instanz. Zugriffe steuert ihr über Rollen und Rechte, ein Aktivitätsprotokoll hält Änderungen fest. Aufbewahrungsfristen mit Löschlauf und eine AVV zur Auftragsverarbeitung sind vorgesehen.</p></details>
       <details class="rise"><summary>Was kostet das?<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary><p class="a">Es gibt Monats-, Jahres- und eine einmalige Lifetime-Lizenz zum Selbst-Hosten — jeweils mit allen Funktionen. Die konkreten Preise geben wir in Kürze bekannt.</p></details>
@@ -693,7 +807,7 @@
       <canvas class="topo-mini" aria-hidden="true"></canvas>
       <div style="position:relative;z-index:2">
         <h2>Euer digitales Basislager wartet.</h2>
-        <p>Eine App für Material, Mitglieder, Veranstaltungen, Nachweise und Kasse — in euren Vereinsfarben, gehostet in Deutschland.</p>
+        <p>Eine App für Material, Mitglieder, Veranstaltungen, Nachweise, Kommunikation und Kasse — in euren Vereinsfarben, gehostet in Deutschland.</p>
         <a class="btn btn-light" href="#anfrage">Instanz anfragen</a>
       </div>
     </div>
@@ -703,7 +817,7 @@
 <footer>
   <div class="wrap foot">
     <div class="brand"><svg class="mark" viewBox="0 0 32 32" fill="none"><path d="M16 3 3 27h26L16 3Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg> Materialverwaltung</div>
-    <div class="links">Material · Mitglieder · Veranstaltungen · Nachweise · Finanzen
+    <div class="links">Material · Mitglieder · Veranstaltungen · Nachweise · Finanzen · Kommunikation
       <a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a></div>
   </div>
 </footer>

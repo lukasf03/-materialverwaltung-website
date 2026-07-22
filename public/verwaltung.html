@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plattform, Rechte &amp; Datenschutz – Benutzer, Rollen &amp; Hosting | Materialverwaltung</title>
+<meta name="description" content="Plattform &amp; Verwaltung: granulare Benutzer- und Rechteverwaltung mit Rollen, Aktivitätsprotokoll, Branding in euren Vereinsfarben, Nextcloud-Login (SSO/OIDC), automatische Löschfristen für die DSGVO und Hosting in Deutschland – ohne Cookies und Tracking.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛺</text></svg>">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3 3 27h26L16 3Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 12 9.5 27M16 12l6.5 15" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
+      Materialverwaltung
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/material">Material</a>
+      <a href="/mitglieder">Mitglieder</a>
+      <a href="/veranstaltungen">Veranstaltungen</a>
+      <a href="/finanzen">Finanzen</a>
+      <a href="/kommunikation">Kommunikation</a>
+      <a href="/verwaltung" class="current">Verwaltung</a>
+      <a href="/#preise">Preise</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn nav-toggle" id="nav-toggle" aria-label="Menü"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <button class="icon-btn" id="theme" aria-label="Hell/Dunkel umschalten"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg></button>
+      <a class="btn btn-primary" href="/#anfrage">Jetzt anfragen</a>
+    </div>
+  </div>
+</nav>
+
+<header class="phero">
+  <canvas id="topo" aria-hidden="true"></canvas>
+  <div class="hero-glow a"></div>
+  <div class="wrap">
+    <div class="crumb"><a href="/">Start</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span>Plattform, Rechte &amp; Datenschutz</span></div>
+    <div class="phero-in">
+      <span class="ic-lg"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="M9 12l2 2 4-4"/></svg></span>
+      <span class="eyebrow"><b>◆</b>&nbsp; Bereich Plattform</span>
+      <h1 class="phero-h">Jede:r sieht genau das Richtige — und nicht mehr.</h1>
+      <p class="lead">Granulare Rechte statt Alles-oder-nichts, ein lückenloses Protokoll, eure Vereinsfarben, Login per Nextcloud und automatische Löschfristen. Gehostet in Deutschland, ohne Cookies und Tracking.</p>
+      <div class="pills">
+        <a href="#rechte">Benutzer &amp; Rechte</a>
+        <a href="#protokoll">Protokoll</a>
+        <a href="#branding">Branding &amp; Einstellungen</a>
+        <a href="#datenschutz">Datenschutz &amp; Hosting</a>
+        <a href="#alle">Alle Funktionen</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="rechte">
+  <div class="wrap">
+    <div class="spot">
+      <div class="s-txt rise">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 11a3 3 0 1 0-2-5.2"/></svg></span>
+        <h3>Benutzer, Rollen &amp; granulare Rechte</h3>
+        <p>Legt Rollen mit passenden Rechte-Sets an — Kassenwart, Materialwart, Gruppenleitung — und vergebt bei Bedarf einzelne Zusatzrechte pro Person. So sieht jede:r nur die Bereiche, die zur Aufgabe gehören.</p>
+        <ul class="s-list">
+          <li>Rollen mit konfigurierbaren Rechte-Sets</li>
+          <li>Individuelle Zusatzrechte je Benutzer</li>
+          <li>Benutzer anlegen, deaktivieren &amp; Passwort-Reset</li>
+          <li>Bereiche werden je nach Recht ein-/ausgeblendet</li>
+          <li>Zuordnung von Nextcloud-Gruppen zu Rollen (SSO)</li>
+        </ul>
+      </div>
+      <div class="shot rise">
+        <div class="bar"><i></i><i></i><i></i><span class="u">/einstellungen/benutzer</span></div>
+        <img src="/assets/app/einstellungen-benutzer.png" alt="Benutzer- und Rechteverwaltung mit Rollen" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="protokoll" class="alt">
+  <div class="wrap">
+    <div class="spot rev">
+      <div class="s-txt rise">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 2h9l3 3v17H6zM9 9h6M9 13h6M9 17h4"/></svg></span>
+        <h3>Aktivitätsprotokoll — nachvollziehbar statt „wer war das?"</h3>
+        <p>Wer hat wann was angelegt, geändert, gelöscht oder importiert? Das Protokoll hält es automatisch fest — filterbar und transparent, ideal für Übergaben und Kassenprüfung.</p>
+        <ul class="s-list">
+          <li>Automatische Aufzeichnung aller Änderungen</li>
+          <li>Wer, wann, was — mit Filter</li>
+          <li>Vom Dashboard direkt zum Protokoll springen</li>
+        </ul>
+      </div>
+      <div class="shot rise">
+        <div class="bar"><i></i><i></i><i></i><span class="u">/einstellungen/protokoll</span></div>
+        <img src="/assets/app/protokoll.png" alt="Aktivitätsprotokoll" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="branding">
+  <div class="wrap">
+    <div class="spot">
+      <div class="s-txt rise">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 1 0 0 20c1 0 2-1 2-2s-1-2-1-3 1-2 2-2h1a4 4 0 0 0 4-4c0-5-4-9-8-9Z"/></svg></span>
+        <h3>Branding &amp; Einstellungen — eure Instanz, euer Look</h3>
+        <p>Systemname, Logo, Favicon und eure Primär- und Sekundärfarbe färben die ganze App. Kategorien, Lagerorte, Pflichtfelder und SMTP stellt ihr selbst ein — ohne unsere Hilfe.</p>
+        <ul class="s-list">
+          <li>Systemname, Logo, Favicon &amp; Vereinsfarben</li>
+          <li>Kategorien, Lagerorte &amp; Pflichtfelder pflegen</li>
+          <li>SMTP-Konfiguration mit Test-E-Mail</li>
+          <li>Impressum, Datenschutz &amp; Kontakt hinterlegen</li>
+          <li>Eigenes Benutzerprofil: Name, Bild, E-Mail, Passwort</li>
+        </ul>
+      </div>
+      <div class="shot rise">
+        <div class="bar"><i></i><i></i><i></i><span class="u">/einstellungen</span></div>
+        <img src="/assets/app/einstellungen.png" alt="Allgemeine Einstellungen mit Branding" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="datenschutz" class="alt">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <span class="eyebrow"><b>◆</b>&nbsp; Datenschutz &amp; Hosting</span>
+      <h2 class="sec-t">DSGVO ist eingebaut, nicht drangeklebt.</h2>
+      <p class="sec-lead">Daten von Kindern und Ehrenamtlichen brauchen besonderen Schutz. Deshalb sind Aufbewahrungsfristen, Rechte und Hosting von Anfang an mitgedacht.</p>
+    </div>
+    <div class="feat">
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/></svg></div><h4>Hosting in Deutschland</h4><p>Server und Daten in Deutschland. Kein Tracking, keine Cookies von Drittanbietern, keine externen Inhalte.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></div><h4>Automatische Löschfristen</h4><p>Aufbewahrungsfristen konfigurieren, ein nächtlicher Löschlauf setzt sie um — z. B. für Konten nach Ende der Tätigkeit.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h4>Rechte als Datenschutz</h4><p>Sensible Angaben (Gesundheit, Nachweise) sehen nur Berechtigte. Nachweise ganz ohne Dokument möglich.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M21 3l-9 9M10 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></div><h4>Nextcloud-Login (SSO)</h4><p>Anmeldung per Nextcloud (OIDC). Gruppen werden auf Rollen abgebildet — ein Zugang weniger zu pflegen.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2M4 7h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM9 12h6"/></svg></div><h4>Speicher &amp; Backups</h4><p>Speicherplatz der Nextcloud im Blick, Updates und Backups inklusive — bei der Lifetime-Lizenz hostet ihr selbst.</p></div>
+      <div class="fcard rise"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></div><h4>Dashboard &amp; Zeitplan</h4><p>Kennzahlen und Handlungsbedarf auf einen Blick. Ein interner Zeitplan erledigt Erinnerungen und Läufe automatisch.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="alle">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <span class="eyebrow"><b>◆</b>&nbsp; Vollständige Funktionsliste</span>
+      <h2 class="sec-t">Alles im Bereich Plattform</h2>
+    </div>
+    <div class="checkwrap rise">
+      <div class="checks">
+        <div class="ci"><span><b>Benutzer</b> anlegen &amp; deaktivieren</span></div>
+        <div class="ci"><span><b>Rollen</b> mit konfigurierbaren Rechte-Sets</span></div>
+        <div class="ci"><span><b>Granulare Einzelrechte</b> je Person</span></div>
+        <div class="ci"><span><b>Bereichs-Sichtbarkeit</b> nach Recht</span></div>
+        <div class="ci"><span><b>Passwort-Reset</b> per Selfservice</span></div>
+        <div class="ci"><span><b>Nextcloud-Login</b> (OIDC/SSO)</span></div>
+        <div class="ci"><span><b>Gruppen-zu-Rollen-Mapping</b> (SSO)</span></div>
+        <div class="ci"><span><b>Aktivitätsprotokoll</b>, filterbar</span></div>
+        <div class="ci"><span><b>Systemname, Logo &amp; Favicon</b></span></div>
+        <div class="ci"><span><b>Primär- &amp; Sekundärfarbe</b> (Branding)</span></div>
+        <div class="ci"><span><b>Kategorien &amp; Lagerorte</b> verwalten</span></div>
+        <div class="ci"><span><b>Pflichtfelder</b> für Materialien</span></div>
+        <div class="ci"><span><b>SMTP-Konfiguration</b> mit Test-Mail</span></div>
+        <div class="ci"><span><b>Impressum, Datenschutz &amp; Kontakt</b></span></div>
+        <div class="ci"><span><b>Benutzerprofil</b> selbst pflegen</span></div>
+        <div class="ci"><span><b>Aufbewahrungsfristen</b> konfigurieren</span></div>
+        <div class="ci"><span><b>Automatischer Löschlauf</b> (Zeitplan)</span></div>
+        <div class="ci"><span><b>Speicher-Einstellungen</b> (Nextcloud/lokal)</span></div>
+        <div class="ci"><span><b>Dashboard</b> mit Kennzahlen &amp; Handlungsbedarf</span></div>
+        <div class="ci"><span><b>Interner Zeitplan</b> (Erinnerungen, Läufe)</span></div>
+        <div class="ci"><span><b>Hosting in Deutschland</b></span></div>
+        <div class="ci"><span><b>Kein Tracking, keine Cookies</b> von Dritten</span></div>
+        <div class="ci"><span><b>Hell-/Dunkel-Design</b></span></div>
+        <div class="ci"><span><b>MariaDB oder Supabase</b> als Datenbank</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <span class="eyebrow"><b>◆</b>&nbsp; Weiter im Rundgang</span>
+      <h2 class="sec-t">Andere Bereiche</h2>
+    </div>
+    <div class="xlinks rise">
+      <a class="xlink" href="/material"><span class="xi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/></svg></span><span><b>Material</b><span>Bestand, Packlisten &amp; Fuhrpark</span></span></a>
+      <a class="xlink" href="/finanzen"><span class="xi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10 12 4l9 6M5 10v9h14v-9M3 20h18"/></svg></span><span><b>Finanzen</b><span>Buchhaltung &amp; Finanzamt</span></span></a>
+      <a class="xlink" href="/mitglieder"><span class="xi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 11a3 3 0 1 0-2-5.2"/></svg></span><span><b>Mitglieder</b><span>Menschen &amp; Nachweise</span></span></a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-block rise">
+      <canvas class="topo-mini" aria-hidden="true"></canvas>
+      <div style="position:relative;z-index:2">
+        <h2>Eure Daten, eure Regeln.</h2>
+        <p>Feine Rechte, volles Protokoll, eure Vereinsfarben und Hosting in Deutschland — datenschutzkonform von Anfang an.</p>
+        <a class="btn btn-light" href="/#anfrage">Instanz anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand"><svg class="mark" viewBox="0 0 32 32" fill="none"><path d="M16 3 3 27h26L16 3Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg> Materialverwaltung</div>
+    <div class="links">
+      <a href="/material">Material</a><a href="/mitglieder">Mitglieder</a><a href="/veranstaltungen">Veranstaltungen</a><a href="/finanzen">Finanzen</a><a href="/kommunikation">Kommunikation</a><a href="/verwaltung">Verwaltung</a>
+      <a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

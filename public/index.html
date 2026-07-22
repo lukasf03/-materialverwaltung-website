@@ -8,10 +8,6 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛺</text></svg>">
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="stylesheet" href="/assets/site.css">
-<style>
-  .plans.plans-2{grid-template-columns:repeat(2,1fr);max-width:800px;margin-inline:auto}
-  @media (max-width:960px){.plans.plans-2{grid-template-columns:1fr}}
-</style>
 </head>
 <body>
 
@@ -215,7 +211,7 @@
       <h2 class="sec-t">Fair für gemeinnützige Gruppen.</h2>
       <p class="sec-lead" style="margin-inline:auto">Eine eigene Instanz in euren Vereinsfarben, unbegrenzt Benutzer und Mitglieder, alle Bereiche inklusive. Ohne Einrichtungsgebühr — Konditionen stimmen wir gemeinsam ab.</p>
     </div>
-    <div class="plans plans-2">
+    <div class="plans">
       <div class="plan rise">
         <h3>Monatsabo</h3>
         <div class="price">mtl.<small> · flexibel</small></div>
@@ -236,13 +232,25 @@
         <p class="per">Zwei Monate sparen ggü. monatlich</p>
         <ul>
           <li>Alles aus dem Monatsabo</li>
-          <li><b>100 GB Cloudspeicher integriert</b></li>
           <li>Vergünstigter Jahrespreis</li>
           <li>Priorisierter Support</li>
           <li>Onboarding-Hilfe beim Start</li>
           <li>Datenimport aus Altsystemen</li>
         </ul>
         <a class="btn btn-primary" href="/#anfrage" data-paket="Jahresabo">Anfragen</a>
+      </div>
+      <div class="plan rise">
+        <h3>Jahresabo Plus</h3>
+        <div class="price">jährl.<small> · inkl. Cloud</small></div>
+        <p class="per">Für Gruppen mit vielen Dokumenten</p>
+        <ul>
+          <li>Alles aus dem Jahresabo</li>
+          <li><b>100 GB Cloudspeicher integriert</b></li>
+          <li>Dokumente, Fotos &amp; Belege zentral</li>
+          <li>Freigabelinks &amp; Ordner-Rechte</li>
+          <li>Backups des Speichers inklusive</li>
+        </ul>
+        <a class="btn btn-ghost" href="/#anfrage" data-paket="Jahresabo Plus (100 GB Cloud)">Anfragen</a>
       </div>
     </div>
   </div>
@@ -283,6 +291,7 @@
       <label for="f-paket">Gewünschtes Paket</label>
       <select id="f-paket" name="paket">
         <option>Jahresabo</option>
+        <option>Jahresabo Plus (100 GB Cloud)</option>
         <option>Monatsabo</option>
         <option>Noch unsicher – bitte beraten</option>
       </select>

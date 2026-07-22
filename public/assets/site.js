@@ -68,4 +68,27 @@
       finally{btn.disabled=false;btn.textContent=lbl;}
     });
   }
+
+  /* Lightbox: alle Screenshots per Klick groß anzeigen */
+  var shots=document.querySelectorAll('.shot img,.gal img,.shotfull img');
+  if(shots.length){
+    var lb=document.createElement('div');
+    lb.className='lb';lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Screenshot vergrößert');
+    lb.innerHTML='<button class="lb-close" type="button" aria-label="Schließen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><figure><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(lb);
+    var big=lb.querySelector('img'),cap=lb.querySelector('figcaption'),closeBtn=lb.querySelector('.lb-close'),lastFocus=null;
+    function lbOpen(im){lastFocus=document.activeElement;big.src=im.currentSrc||im.src;big.alt=im.alt||'';
+      if(im.alt){cap.textContent=im.alt;cap.hidden=false;}else{cap.textContent='';cap.hidden=true;}
+      lb.classList.add('open');document.body.classList.add('lb-lock');closeBtn.focus();}
+    function lbClose(){lb.classList.remove('open');document.body.classList.remove('lb-lock');big.removeAttribute('src');
+      if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+    shots.forEach(function(im){
+      im.setAttribute('role','button');im.setAttribute('tabindex','0');
+      if(!im.getAttribute('title'))im.setAttribute('title','Zum Vergrößern klicken');
+      im.addEventListener('click',function(){lbOpen(im);});
+      im.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();lbOpen(im);}});
+    });
+    lb.addEventListener('click',function(e){if(e.target===lb||e.target===big||(e.target.closest&&e.target.closest('.lb-close')))lbClose();});
+    addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open'))lbClose();});
+  }
 })();
